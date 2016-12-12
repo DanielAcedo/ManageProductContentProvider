@@ -4,6 +4,7 @@ import com.danielacedo.manageproductrecycler.interfaces.IRepository;
 import com.danielacedo.manageproductrecycler.model.Product;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -18,22 +19,51 @@ public class ProductRepository implements IRepository {
 
     @Override
     public Product getProductById(String id) {
-        return null;
+        Product resultProduct = null;
+
+        for (Product product : productList){
+            if(product.getId().equals(id)) {
+                resultProduct = product;
+                break;
+            }
+        }
+
+        return resultProduct;
     }
 
     @Override
     public void deleteProduct(Product product) {
-
+        productList.remove(product);
     }
 
     @Override
     public void addProduct(Product product) {
-
+        productList.add(product);
     }
 
     @Override
     public void updateProduct(Product product) {
+        int position = getProductPosition(product);
 
+        if(position!=-1){
+            productList.remove(position);
+            productList.add(position, product);
+        }
+    }
+
+    private int getProductPosition(Product product){
+        int position = -1;
+
+        for (int i = 0; i < productList.size(); i++){
+            Product p = productList.get(i);
+
+            if(p.getId().equals(product.getId())){
+                position = i;
+                break;
+            }
+        }
+
+        return position;
     }
 
 

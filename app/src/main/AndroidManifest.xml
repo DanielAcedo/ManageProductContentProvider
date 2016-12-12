@@ -17,9 +17,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ListProductFragment" />
-        <activity android:name=".Product_Activity_Recycler"/>
-        <activity android:name=".ManageProductFragment" />
+        <activity android:name=".HomeActivity"/>
         <activity android:name=".GeneralSettings_Activity" />
         <activity android:name=".AccountSettings_Activity" />
         <activity android:name=".Register_Activity" android:windowSoftInputMode="adjustPan"></activity>

@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.danielacedo.manageproductrecycler.ListProduct_Application;
+import com.danielacedo.manageproductrecycler.ProductRepository;
 import com.danielacedo.manageproductrecycler.R;
 import com.danielacedo.manageproductrecycler.model.Product;
 
@@ -37,7 +38,7 @@ public class ProductAdapter extends ArrayAdapter<Product> {
      * @param context
      */
     public ProductAdapter(Context context){
-        super(context, R.layout.item_product, new ArrayList<Product>(((ListProduct_Application)context.getApplicationContext()).getProducts()
+        super(context, R.layout.item_product, new ArrayList<Product>(ProductRepository.getInstance().getProducts()
         ));
 
         isAlphabeticallyAscendant = false;

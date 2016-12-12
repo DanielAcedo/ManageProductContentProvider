@@ -137,16 +137,9 @@ public class Login_Activity extends AppCompatActivity implements LoginPresenter.
         String messageError = getResources().getString(
                 getResources().getIdentifier(nameResource, "string", getPackageName()));
 
-        switch (view){
-            case R.id.til_User:
-                //til_User.setError(messageError);
-                Snackbar.make(layout, messageError, Snackbar.LENGTH_INDEFINITE).show();
-                break;
-            case R.id.til_Password:
-                //til_Pass.setError(messageError);
-                Snackbar.make(layout, messageError, Snackbar.LENGTH_INDEFINITE).show();
-                break;
-        }
+
+        Snackbar.make(layout, messageError, Snackbar.LENGTH_INDEFINITE).show();
+
     }
 
 
