@@ -132,6 +132,11 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         return position;
     }
 
+    public void updateProduct(List<Product> products){
+        clear();
+        addAll(products);
+    }
+
     static class ProductHolder{
         ImageView imv_listProduct_Image;
         TextView txv_listProduct_Name, txv_listProduct_Price, txv_listProduct_Stock;

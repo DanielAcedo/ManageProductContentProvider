@@ -14,16 +14,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.danielacedo.manageproductrecycler.interfaces.IValidateUser;
-import com.danielacedo.manageproductrecycler.presenter.RegisterPresenter;
+import com.danielacedo.manageproductrecycler.interfaces.SignUpPresenter;
+import com.danielacedo.manageproductrecycler.presenter.RegisterPresenterImpl;
 
 /**
  * Activity used for registering new users
  * @author Daniel Acedo Calderón
  */
-public class Register_Activity extends AppCompatActivity  implements IValidateUser.View{
+public class Register_Activity extends AppCompatActivity  implements SignUpPresenter.View{
 
-    RegisterPresenter presenter;
+    RegisterPresenterImpl presenter;
 
     private Spinner spProvince;
     private Spinner spCity;
@@ -40,7 +40,7 @@ public class Register_Activity extends AppCompatActivity  implements IValidateUs
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_);
 
-        presenter = new RegisterPresenter(this);
+        presenter = new RegisterPresenterImpl(this);
 
         edt_UserRegister = (EditText)findViewById(R.id.edt_UserRegister);
         edt_PassRegister = (EditText)findViewById(R.id.edt_PassRegister);

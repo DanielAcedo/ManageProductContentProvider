@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.danielacedo.manageproductrecycler.Product_Activity">
+    tools:context="com.danielacedo.manageproductrecycler.ListProductFragment">
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"

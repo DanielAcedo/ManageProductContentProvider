@@ -45,4 +45,7 @@
     <string name="btn_AddProduct">Añadir</string>
     <string name="btn_AddProduct_Edit">Editar</string>
 
+    <!-- ListProductFragment -->
+    <string name="nodata">No hay productos</string>
+
 </resources>

@@ -14,16 +14,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.danielacedo.manageproductrecycler.interfaces.IValidateAccount;
+import com.danielacedo.manageproductrecycler.interfaces.LoginPresenter;
 import com.danielacedo.manageproductrecycler.model.User;
-import com.danielacedo.manageproductrecycler.preferences.AccountPreference;
-import com.danielacedo.manageproductrecycler.presenter.LoginPresenter;
+import com.danielacedo.manageproductrecycler.preferences.AccountPreferenceImpl;
+import com.danielacedo.manageproductrecycler.presenter.LoginPresenterImpl;
 
 import static com.danielacedo.manageproductrecycler.R.layout.activity_login_;
 
-public class Login_Activity extends AppCompatActivity implements IValidateAccount.View{
+public class Login_Activity extends AppCompatActivity implements LoginPresenter.View{
 
-    private IValidateAccount.Presenter loginMvp;
+    private LoginPresenter.Presenter loginMvp;
     private EditText edt_User, edt_Pass;
     private Button btn_Login, btn_Register;
     private TextInputLayout til_User, til_Pass;
@@ -35,7 +35,7 @@ public class Login_Activity extends AppCompatActivity implements IValidateAccoun
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(activity_login_);
-        loginMvp = new LoginPresenter(this); // Presenter has a reference to the view
+        loginMvp = new LoginPresenterImpl(this); // Presenter has a reference to the view
 
         layout = (ViewGroup) findViewById(R.id.activity_login_);
 
@@ -153,8 +153,8 @@ public class Login_Activity extends AppCompatActivity implements IValidateAccoun
 
     private void checkUserPreference(){
 
-        String user = ((AccountPreference)AccountPreference.getInstance(Login_Activity.this)).readUser();
-        String password = ((AccountPreference)AccountPreference.getInstance(Login_Activity.this)).readPassword();
+        String user = ((AccountPreferenceImpl) AccountPreferenceImpl.getInstance(Login_Activity.this)).readUser();
+        String password = ((AccountPreferenceImpl) AccountPreferenceImpl.getInstance(Login_Activity.this)).readPassword();
 
         if (!user.equals("") && !password.equals("")){
             edt_User.setText(user);

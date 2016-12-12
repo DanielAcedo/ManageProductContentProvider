@@ -4,16 +4,10 @@ package com.danielacedo.manageproductrecycler.presenter;
  * Created by Daniel on 20/10/16.
  */
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 
-import com.danielacedo.manageproductrecycler.ListProduct_Application;
-import com.danielacedo.manageproductrecycler.ManageProduct_Activity;
 import com.danielacedo.manageproductrecycler.R;
 import com.danielacedo.manageproductrecycler.interfaces.IAddProductMvp;
-import com.danielacedo.manageproductrecycler.model.Product;
 
 /**
  * Presenter for the AddProductView
