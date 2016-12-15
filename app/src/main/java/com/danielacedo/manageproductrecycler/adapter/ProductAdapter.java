@@ -136,6 +136,7 @@ public class ProductAdapter extends ArrayAdapter<Product> {
     public void updateProduct(List<Product> products){
         clear();
         addAll(products);
+        sort(Product.NAME_DESCENDANT_COMPARATOR);
     }
 
     static class ProductHolder{

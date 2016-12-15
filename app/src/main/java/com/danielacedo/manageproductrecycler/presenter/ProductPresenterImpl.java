@@ -18,6 +18,11 @@ public class ProductPresenterImpl implements ProductPresenter {
     }
 
     @Override
+    public void addProduct(Product product) {
+        ProductRepository.getInstance().addProduct(product);
+    }
+
+    @Override
     public void loadProducts() {
         if(repository.getProducts().isEmpty()){
             view.showEmptyState(true);
@@ -26,11 +31,17 @@ public class ProductPresenterImpl implements ProductPresenter {
         }
     }
 
+    /* Example method for removing the object once the snackbar was dimissed
+    @Override
+    public void deleteTemp(Product product) {
+        view.showMessageDelete(product);
+    }*/
+
     @Override
     public void deleteProduct(Product product) {
         repository.deleteProduct(product);
-
         loadProducts();
+        view.showMessageDelete(product);
     }
 
     @Override
