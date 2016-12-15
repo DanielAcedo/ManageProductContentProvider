@@ -161,7 +161,7 @@ public class Product implements Comparable<Product>, Parcelable{
 
         if(o instanceof Product){ //Check if the Object shares the same type
             Product product = (Product)o;
-            if(this.name.equals(product.getName()) && this.brand.equals(product.getBrand()) && this.name.equals(product.getDosage())){ //If name, brand, and concentration are equals, then the objects are considered the same
+            if(this.name.equals(product.getName()) && this.brand.equals(product.getBrand()) && this.dosage.equals(product.getDosage())){ //If name, brand, and concentration are equals, then the objects are considered the same
                 return true;
             }
         }
