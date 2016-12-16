@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#2196f3</color>
+    <color name="colorPrimaryDark">#1976d2</color>
+    <color name="colorAccent">#80d8ff</color>
     <color name="colorError">#f2b6</color>
     <color name="colorHint">#883344</color>
 
     <!-- Register -->
     <color name="colorSeparatorRegister">#888888aa</color>
+
+    <!-- Action bar -->
+    <color name="background_action_mode">@color/colorError</color>
 </resources>
