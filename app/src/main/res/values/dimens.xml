@@ -9,4 +9,9 @@
     <!-- Register -->
     <dimen name="register_separator_margin_bottom">5dp</dimen>
     <dimen name="register_separator_height">1dp</dimen>
+
+    <dimen name="header_left_padding">16dp</dimen>
+    <dimen name="header_height">192dp</dimen>
+
+    <dimen name="profile_image_size">92dp</dimen>
 </resources>
