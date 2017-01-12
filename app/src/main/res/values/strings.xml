@@ -48,4 +48,8 @@
     <!-- ListProductFragment -->
     <string name="nodata">No hay productos</string>
 
+    <!-- DrawerToggle -->
+    <string name="drawer_open">Drawer abierto</string>
+    <string name="drawer_close">Drawer cerrado</string>
+
 </resources>

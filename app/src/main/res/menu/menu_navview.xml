@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
-        <item android:id="@+id/action_home"
-            android:checked="true"
-            android:title="Inicio"/>
-
         <item android:id="@+id/action_product"
-            android:title="Farmacia"/>
+            android:checked="true"
+            android:title="Inicio"
+            android:icon="@drawable/ic_action_home"/>
+
+        <item android:id="@+id/action_pharmacy"
+            android:title="Farmacia"
+            android:icon="@drawable/ic_action_pharmacy"
+            />
 
         <item android:id="@+id/action_invoice"
-            android:title="Venta"/>
+            android:title="Venta"
+            android:icon="@drawable/ic_action_invoice"
+            />
     </group>
     <item
         android:id="@+id/navigation_subheader"
@@ -17,10 +22,12 @@
 
         <menu>
             <item android:id="@+id/action_help"
-                android:title="Ayuda"/>
+                android:title="Ayuda"
+                android:icon="@drawable/ic_action_help"/>
 
             <item android:id="@+id/action_config"
-                android:title="Configuración"/>
+                android:title="Configuración"
+                android:icon="@drawable/ic_action_config"/>
         </menu>
     </item>
 </menu>
