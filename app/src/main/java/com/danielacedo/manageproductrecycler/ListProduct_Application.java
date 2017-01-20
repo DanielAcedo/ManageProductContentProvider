@@ -2,6 +2,7 @@ package com.danielacedo.manageproductrecycler;
 
 import android.app.Application;
 
+import com.danielacedo.manageproductrecycler.database.DatabaseHelper;
 import com.danielacedo.manageproductrecycler.model.Product;
 import com.danielacedo.manageproductrecycler.model.User;
 
@@ -23,12 +24,13 @@ public class ListProduct_Application extends Application {
     private User user;
     private List<Product> productList;
 
-
     @Override
     public void onCreate() {
         super.onCreate();
         productList = new ArrayList<Product>();
         initializeProducts();
+        DatabaseHelper.getInstance(this).open();
+
     }
 
     private void initializeProducts(){
