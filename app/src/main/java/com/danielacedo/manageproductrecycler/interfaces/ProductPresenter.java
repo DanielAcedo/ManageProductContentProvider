@@ -14,8 +14,6 @@ public interface ProductPresenter {
 
     void deleteProduct(Product product);
 
-    Product getProduct(String id);
-
     void addProduct(Product product);
 
     void onDestroy();

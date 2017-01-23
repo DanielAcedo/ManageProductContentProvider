@@ -24,6 +24,8 @@ public class Product implements Comparable<Product>, Parcelable{
     private double price;
     private int stock;
     private int image;
+
+
     public static final Comparator<Product> PRICE_COMPARATOR = new Comparator<Product>() {
         @Override
         public int compare(Product o1, Product o2) {

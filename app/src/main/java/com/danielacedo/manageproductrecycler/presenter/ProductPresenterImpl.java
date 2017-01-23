@@ -1,8 +1,13 @@
 package com.danielacedo.manageproductrecycler.presenter;
 
+import android.content.Context;
+
 import com.danielacedo.manageproductrecycler.ProductRepository;
+import com.danielacedo.manageproductrecycler.database.DatabaseManager;
 import com.danielacedo.manageproductrecycler.interfaces.ProductPresenter;
 import com.danielacedo.manageproductrecycler.model.Product;
+
+import java.util.List;
 
 /**
  * Created by usuario on 9/12/16.
@@ -19,15 +24,22 @@ public class ProductPresenterImpl implements ProductPresenter {
 
     @Override
     public void addProduct(Product product) {
-        ProductRepository.getInstance().addProduct(product);
+        DatabaseManager.getInstance().addProduct(product);
+        loadProducts();
+    }
+
+    public List<Product> getAllProducts(){
+        return DatabaseManager.getInstance().getAllProducts();
     }
 
     @Override
     public void loadProducts() {
-        if(repository.getProducts().isEmpty()){
+        List<Product> products = getAllProducts();
+
+        if(products.isEmpty()){
             view.showEmptyState(true);
         }else{
-            view.showProducts(repository.getProducts());
+            view.showProducts(products);
         }
     }
 
@@ -39,14 +51,9 @@ public class ProductPresenterImpl implements ProductPresenter {
 
     @Override
     public void deleteProduct(Product product) {
-        repository.deleteProduct(product);
+        DatabaseManager.getInstance().deleteProduct(product);
         loadProducts();
         view.showMessageDelete(product);
-    }
-
-    @Override
-    public Product getProduct(String id) {
-        return repository.getProductById(id);
     }
 
     @Override
