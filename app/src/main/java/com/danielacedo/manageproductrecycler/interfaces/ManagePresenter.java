@@ -16,6 +16,6 @@ public interface ManagePresenter {
     boolean validateProductFields(String name, String description, String brand, String dosage, String price, String stock, String image);
 
     interface View{
-        void showMessage(String message);
+        void showMessage(int message);
     }
 }

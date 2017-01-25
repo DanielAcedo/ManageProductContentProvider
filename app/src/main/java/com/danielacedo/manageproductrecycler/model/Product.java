@@ -3,7 +3,6 @@ package com.danielacedo.manageproductrecycler.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
 import java.util.Comparator;
 import java.util.UUID;
 
@@ -16,14 +15,15 @@ import java.util.UUID;
  * @author Daniel Acedo Calderón
  */
 public class Product implements Comparable<Product>, Parcelable{
-    private String id;
+    private int id;
     private String name;
     private String description;
     private String brand;
     private String dosage;
+    private int id_category;
     private double price;
     private int stock;
-    private int image;
+    private long image;
 
 
     public static final Comparator<Product> PRICE_COMPARATOR = new Comparator<Product>() {
@@ -55,8 +55,8 @@ public class Product implements Comparable<Product>, Parcelable{
         }
     };
 
-    public Product(String name, String description, double price, String brand, String dosage, int stock, int image) {
-        this.id = UUID.randomUUID().toString();
+    public Product(int id, String name, String description, double price, String brand, String dosage, int stock, int image, int id_category) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
@@ -64,10 +64,11 @@ public class Product implements Comparable<Product>, Parcelable{
         this.dosage = dosage;
         this.stock = stock;
         this.image = image;
+        this.id_category = id_category;
     }
 
     protected Product(Parcel in) {
-        id = in.readString();
+        id = in.readInt();
         name = in.readString();
         description = in.readString();
         brand = in.readString();
@@ -75,6 +76,7 @@ public class Product implements Comparable<Product>, Parcelable{
         price = in.readDouble();
         stock = in.readInt();
         image = in.readInt();
+        id_category = in.readInt();
     }
 
     public static final Creator<Product> CREATOR = new Creator<Product>() {
@@ -89,11 +91,11 @@ public class Product implements Comparable<Product>, Parcelable{
         }
     };
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -145,12 +147,20 @@ public class Product implements Comparable<Product>, Parcelable{
         this.stock = stock;
     }
 
-    public int getImage() {
+    public long getImage() {
         return image;
     }
 
-    public void setImage(int image) {
+    public void setImage(long image) {
         this.image = image;
+    }
+
+    public int getId_category() {
+        return id_category;
+    }
+
+    public void setId_category(int id_category) {
+        this.id_category = id_category;
     }
 
     @Override
@@ -187,13 +197,14 @@ public class Product implements Comparable<Product>, Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
+        dest.writeInt(id);
         dest.writeString(name);
         dest.writeString(description);
         dest.writeString(brand);
         dest.writeString(dosage);
         dest.writeDouble(price);
         dest.writeInt(stock);
-        dest.writeInt(image);
+        dest.writeLong(image);
+        dest.writeInt(id_category);
     }
 }

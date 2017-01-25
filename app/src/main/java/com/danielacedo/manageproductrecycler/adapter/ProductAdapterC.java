@@ -10,10 +10,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.danielacedo.manageproductrecycler.ListProduct_Application;
 import com.danielacedo.manageproductrecycler.R;
+import com.danielacedo.manageproductrecycler.database.DatabaseManager;
 import com.danielacedo.manageproductrecycler.model.Product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,7 +28,7 @@ import java.util.List;
 public class ProductAdapterC extends ArrayAdapter<Product> {
 
     public ProductAdapterC(Context context) {
-        super(context, R.layout.item_product, ((ListProduct_Application)context.getApplicationContext()).getProducts());
+        super(context, R.layout.item_product, new ArrayList<Product>(DatabaseManager.getInstance().getAllProducts()));
     }
 
     @NonNull
@@ -56,7 +57,7 @@ public class ProductAdapterC extends ArrayAdapter<Product> {
         }
 
         //4. Assign display info to widgets
-        productHolder.imv_listProduct_Image.setImageResource(getItem(position).getImage());
+        productHolder.imv_listProduct_Image.setImageResource((int)getItem(position).getImage());
         productHolder.txv_listProduct_Name.setText(getItem(position).getName());
         productHolder.txv_listProduct_Price.setText(String.valueOf(getItem(position).getPrice()));
         productHolder.txv_listProduct_Stock.setText(String.valueOf(getItem(position).getStock()));

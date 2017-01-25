@@ -2,7 +2,6 @@ package com.danielacedo.manageproductrecycler.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +9,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.danielacedo.manageproductrecycler.ListProduct_Application;
-import com.danielacedo.manageproductrecycler.ProductRepository;
 import com.danielacedo.manageproductrecycler.R;
 import com.danielacedo.manageproductrecycler.database.DatabaseManager;
 import com.danielacedo.manageproductrecycler.model.Product;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -74,7 +70,9 @@ public class ProductAdapter extends ArrayAdapter<Product> {
             holder = (ProductHolder) v.getTag();
         }
 
-        holder.imv_listProduct_Image.setImageResource(getItem(position).getImage());
+        //TODO Fix, arbitrary image id crashing application
+        //holder.imv_listProduct_Image.setImageResource(getItem(position).getImage());
+        holder.imv_listProduct_Image.setImageResource(R.mipmap.ic_launcher);
         holder.txv_listProduct_Name.setText(getItem(position).getName());
         holder.txv_listProduct_Stock.setText(String.valueOf(getItem(position).getStock()));
         holder.txv_listProduct_Price.setText(String.valueOf(getItem(position).getPrice()));
@@ -110,9 +108,9 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         notifyDataSetChanged();
     }
 
-    public void removeById(String id){
+    public void removeById(int id){
         for(int i = 0; i < getCount(); i++){
-            if(getItem(i).getId().equals(id)){
+            if(getItem(i).getId() == (id)){
                 Product product = getItem(i);
                 remove(product);
                 break;
@@ -120,11 +118,11 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         }
     }
 
-    private int searchProductById(String id){
+    private int searchProductById(int id){
         int position = -1;
 
         for(int i = 0; i < getCount(); i++){
-            if(getItem(i).getId().equals(id)){
+            if(getItem(i).getId() == (id)){
                 position = i;
                 break;
             }

@@ -1,24 +1,21 @@
 package com.danielacedo.manageproductrecycler;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
-import com.danielacedo.manageproductrecycler.interfaces.IAddProductMvp;
 import com.danielacedo.manageproductrecycler.interfaces.IProduct;
 import com.danielacedo.manageproductrecycler.interfaces.ManagePresenter;
 import com.danielacedo.manageproductrecycler.model.Product;
 import com.danielacedo.manageproductrecycler.presenter.ManagePresenterImpl;
-import com.danielacedo.manageproductrecycler.presenter.ManageProductPresenter;
 
 /**
  * Activity used for adding new products to the application. After creating one successfully it calls back ListProductActivity
@@ -31,6 +28,7 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
     ManagePresenter presenter;
     EditText edt_Name, edt_Description, edt_Price, edt_Brand, edt_Dosage, edt_Stock, edt_Image;
     Button btn_AddProduct;
+    LinearLayout root;
     private ManageProductListener mCallback;
 
     boolean editing;
@@ -90,6 +88,7 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
             edt_Dosage = (EditText) rootview.findViewById(R.id.edt_Dosage);
             edt_Stock = (EditText) rootview.findViewById(R.id.edt_Stock);
             edt_Image = (EditText) rootview.findViewById(R.id.edt_Image);
+            root = (LinearLayout)rootview.findViewById(R.id.add_product);
 
             btn_AddProduct = (Button)rootview.findViewById(R.id.btn_AddProduct);
             btn_AddProduct.setOnClickListener(new View.OnClickListener() {
@@ -181,7 +180,7 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
      * @author Daniel Acedo Calderón
      */
     @Override
-    public void showMessage(String messageError) {
-        Snackbar.make(null, messageError, Snackbar.LENGTH_SHORT);
+    public void showMessage(int messageError) {
+        Snackbar.make(root, getResources().getString(messageError), Snackbar.LENGTH_SHORT).show();
     }
 }

@@ -1,14 +1,15 @@
 package com.danielacedo.manageproductrecycler.database;
 
-import android.app.Application;
 import android.content.ContentValues;
-import android.content.Context;
+import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 
 import com.danielacedo.manageproductrecycler.ListProduct_Application;
 import com.danielacedo.manageproductrecycler.model.Product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,8 +31,28 @@ public class DatabaseManager {
     }
 
     public List<Product> getAllProducts(){
+        SQLiteDatabase sqLiteDatabase = DatabaseHelper.getInstance(ListProduct_Application.getContext()).openDatabase();
+        Cursor cursor = sqLiteDatabase.query(ManageProductContract.ProductEntry.TABLE_NAME, ManageProductContract.ProductEntry.SQL_ALLCOLUMNS,null, null, null, null, null);
+        List<Product> products = new ArrayList<>();
 
-        return null;
+        if(cursor.moveToFirst()){
+            do {
+                int id = cursor.getInt(0);
+                String name = cursor.getString(1);
+                String description = cursor.getString(2);
+                String brand = cursor.getString(3);
+                String dosage = cursor.getString(4);
+                double price = cursor.getDouble(5);
+                int stock = cursor.getInt(6);
+                int image = cursor.getInt(7);
+                int id_category = cursor.getInt(8);
+                products.add(new Product(id, name, description, price, brand, dosage, stock, image, id_category));
+            }while(cursor.moveToNext());
+        }
+
+        DatabaseHelper.getInstance(ListProduct_Application.getContext()).closeDatabase();
+
+        return products;
     }
 
     public void updateProduct(Product p){
@@ -60,7 +81,11 @@ public class DatabaseManager {
         values.put(ManageProductContract.ProductEntry.COLUMN_IMAGE, p.getImage());
         values.put(ManageProductContract.ProductEntry.COLUMN_IDCATEGORY, 1);
 
-        sqLiteDatabase.insert(ManageProductContract.ProductEntry.TABLE_NAME, null, values);
+        try{
+            sqLiteDatabase.insertOrThrow(ManageProductContract.ProductEntry.TABLE_NAME, null, values);
+        }catch(SQLException e){
+            e.getMessage();
+        }
 
         DatabaseHelper.getInstance(ListProduct_Application.getContext()).closeDatabase();
     }

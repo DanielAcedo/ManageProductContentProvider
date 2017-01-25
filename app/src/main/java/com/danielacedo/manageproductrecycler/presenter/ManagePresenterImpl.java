@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.danielacedo.manageproductrecycler.ProductRepository;
 import com.danielacedo.manageproductrecycler.R;
+import com.danielacedo.manageproductrecycler.database.DatabaseManager;
 import com.danielacedo.manageproductrecycler.interfaces.ManagePresenter;
 import com.danielacedo.manageproductrecycler.model.Product;
 
@@ -21,7 +22,7 @@ public class ManagePresenterImpl implements ManagePresenter {
 
     @Override
     public void addProduct(Product product) {
-        ProductRepository.getInstance().addProduct(product);
+        DatabaseManager.getInstance().addProduct(product);
     }
 
     @Override
@@ -38,34 +39,34 @@ public class ManagePresenterImpl implements ManagePresenter {
     public boolean validateProductFields(String name, String description, String brand, String dosage, String price, String stock, String image) {
 
         boolean ok = true;
-        String message = "";
+        int message = 0;
 
         if(name.isEmpty()){ //If it's empty send error message
-            message = ((Context)view).getResources().getString(R.string.err_productName_empty);
+            message = R.string.err_productName_empty;
             ok = false;
         }
         else if(description.isEmpty()){
-            message = ((Context)view).getResources().getString(R.string.err_productDescription_empty);
+            message = R.string.err_productDescription_empty;
             ok = false;
         }
         else if(brand.isEmpty()){
-            message = ((Context)view).getResources().getString(R.string.err_productBrand_empty);
+            message = R.string.err_productBrand_empty;
             ok = false;
         }
         else if(dosage.isEmpty()){
-            message = ((Context)view).getResources().getString(R.string.err_productDosage_empty);
+            message = R.string.err_productDosage_empty;
             ok = false;
         }
         else if(price.isEmpty()){
-            message = ((Context)view).getResources().getString(R.string.err_productPrice_empty);
+            message = R.string.err_productPrice_empty;
             ok = false;
         }
         else if(stock.isEmpty()){
-            message = ((Context)view).getResources().getString(R.string.err_productStock_empty);
+            message = R.string.err_productStock_empty;
             ok = false;
         }
         else if(image.isEmpty()){
-            message = ((Context)view).getResources().getString(R.string.err_productImage_empty);
+            message = R.string.err_productImage_empty;
             ok = false;
         }
 
