@@ -1,12 +1,17 @@
 package com.danielacedo.manageproductrecycler.presenter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.AsyncTask;
 
+import com.danielacedo.manageproductrecycler.ListProduct_Application;
 import com.danielacedo.manageproductrecycler.ProductRepository;
+import com.danielacedo.manageproductrecycler.R;
 import com.danielacedo.manageproductrecycler.database.DatabaseManager;
 import com.danielacedo.manageproductrecycler.interfaces.ProductPresenter;
 import com.danielacedo.manageproductrecycler.model.Product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,7 +35,7 @@ public class ProductPresenterImpl implements ProductPresenter {
         return DatabaseManager.getInstance().getAllProducts();
     }
 
-    @Override
+    /*@Override
     public void loadProducts() {
         List<Product> products = getAllProducts();
 
@@ -39,6 +44,43 @@ public class ProductPresenterImpl implements ProductPresenter {
         }else{
             view.showProducts(products);
         }
+    }*/
+
+    public void loadProducts(){
+        List<Product> products = null;
+
+        new AsyncTask<Void, Integer, List<Product>>(){
+            ProgressDialog progressDialog = view.getProgressDialog();
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                view.showMessage(R.string.message_loading_products);
+                progressDialog.show();
+            }
+
+            @Override
+            protected List<Product> doInBackground(Void... params) {
+                return DatabaseManager.getInstance().getAllProducts();
+            }
+
+            @Override
+            protected void onPostExecute(List<Product> productList) {
+                if(productList.isEmpty()){
+                    view.showEmptyState(true);
+                }else{
+                    view.showProducts(productList);
+                }
+
+                progressDialog.dismiss();
+            }
+
+            @Override
+            protected void onCancelled() {
+                super.onCancelled();
+
+                view.showMessage(R.string.message_loading_cancelled);
+            }
+        }.execute();
     }
 
     /* Example method for removing the object once the snackbar was dimissed

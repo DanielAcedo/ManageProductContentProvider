@@ -55,6 +55,17 @@ public class Product implements Comparable<Product>, Parcelable{
         }
     };
 
+    public Product(String name, String description, double price, String brand, String dosage, int stock, int image, int id_category) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.brand = brand;
+        this.dosage = dosage;
+        this.stock = stock;
+        this.image = image;
+        this.id_category = id_category;
+    }
+
     public Product(int id, String name, String description, double price, String brand, String dosage, int stock, int image, int id_category) {
         this.id = id;
         this.name = name;

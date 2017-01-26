@@ -18,11 +18,11 @@ public class ProductRepository implements IRepository {
 
 
     @Override
-    public Product getProductById(String id) {
+    public Product getProductById(int id) {
         Product resultProduct = null;
 
         for (Product product : productList){
-            if(product.getId().equals(id)) {
+            if(product.getId() == id) {
                 resultProduct = product;
                 break;
             }
@@ -57,7 +57,7 @@ public class ProductRepository implements IRepository {
         for (int i = 0; i < productList.size(); i++){
             Product p = productList.get(i);
 
-            if(p.getId().equals(product.getId())){
+            if(p.getId() == (product.getId())){
                 position = i;
                 break;
             }
@@ -69,7 +69,7 @@ public class ProductRepository implements IRepository {
 
     private ProductRepository(){
         productList = new ArrayList<Product>();
-        initializeProducts();
+        //initializeProducts();
     }
 
     public static ProductRepository getInstance(){
@@ -80,7 +80,7 @@ public class ProductRepository implements IRepository {
         return repository;
     }
 
-    private void initializeProducts(){
+    /*private void initializeProducts(){
         saveProduct(new Product("Dalsy", "La panacea tal cual", 12.50, "DalsyCorp", "250ml", 5, R.drawable.dalsy_logo));
         saveProduct(new Product("Neuropocina", "Elimina el rechazo a implantes cibernéticos", 5000, "VersaLife", "50ml", 2, R.drawable.neuropozyne));
         saveProduct(new Product("Paracetamol", "La pastilla antitodo", 7, "Bayer", "1g", 50, R.drawable.paracetamol));
@@ -99,7 +99,7 @@ public class ProductRepository implements IRepository {
         saveProduct(new Product("Weed", "Smoke everyday", 5, "SnoopDog", "50mg", 420, R.drawable.weed));
         saveProduct(new Product("ADAM", "El lienzo del ADN", 500, "Fontaine Futuristics", "100ml", 9, R.drawable.adam));
         saveProduct(new Product("Virus-T", "¿Qué podría ir mal?", 25000, "Umbrella Corp.", "1", 1, R.drawable.tvirus));
-    }
+    }*/
 
     public void saveProduct(Product product){
         productList.add(product);

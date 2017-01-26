@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
+import android.support.v4.app.AppLaunchChecker;
 
 import com.danielacedo.manageproductrecycler.ListProduct_Application;
 import com.danielacedo.manageproductrecycler.model.Product;
@@ -16,6 +17,9 @@ import java.util.List;
  * Created by usuario on 23/01/17.
  */
 
+/**
+ * Class used for defining operations dealing with the database
+ */
 public class DatabaseManager {
     private static DatabaseManager databaseManager;
 
@@ -30,6 +34,13 @@ public class DatabaseManager {
         return databaseManager;
     }
 
+
+    // PRODUCT TABLE
+
+    /**
+     * Get all products from the database
+     * @return List of products
+     */
     public List<Product> getAllProducts(){
         SQLiteDatabase sqLiteDatabase = DatabaseHelper.getInstance(ListProduct_Application.getContext()).openDatabase();
         Cursor cursor = sqLiteDatabase.query(ManageProductContract.ProductEntry.TABLE_NAME, ManageProductContract.ProductEntry.SQL_ALLCOLUMNS,null, null, null, null, null);
@@ -59,14 +70,24 @@ public class DatabaseManager {
 
     }
 
+    /**
+     * Deletes a product from the database
+     * @param p Product to be deleted
+     */
     public void deleteProduct(Product p){
         SQLiteDatabase sqLiteDatabase = DatabaseHelper.getInstance(ListProduct_Application.getContext()).openDatabase();
 
-        sqLiteDatabase.delete(ManageProductContract.ProductEntry.TABLE_NAME, "? = ?", new String[]{BaseColumns._ID , p.getId()});
+        String where = "? = ?";
+        String[] whereArgs = new String[]{BaseColumns._ID , String.valueOf(p.getId())};
+        sqLiteDatabase.delete(ManageProductContract.ProductEntry.TABLE_NAME, where, whereArgs);
 
         DatabaseHelper.getInstance(ListProduct_Application.getContext()).closeDatabase();
     }
 
+    /**
+     * Adds a product to the database
+     * @param p Product to be added
+     */
     public void addProduct(Product p){
         SQLiteDatabase sqLiteDatabase = DatabaseHelper.getInstance(ListProduct_Application.getContext()).openDatabase();
 
@@ -79,7 +100,7 @@ public class DatabaseManager {
         values.put(ManageProductContract.ProductEntry.COLUMN_PRICE, p.getPrice());
         values.put(ManageProductContract.ProductEntry.COLUMN_STOCK, p.getStock());
         values.put(ManageProductContract.ProductEntry.COLUMN_IMAGE, p.getImage());
-        values.put(ManageProductContract.ProductEntry.COLUMN_IDCATEGORY, 1);
+        values.put(ManageProductContract.ProductEntry.COLUMN_IDCATEGORY, p.getId_category());
 
         try{
             sqLiteDatabase.insertOrThrow(ManageProductContract.ProductEntry.TABLE_NAME, null, values);
@@ -88,5 +109,14 @@ public class DatabaseManager {
         }
 
         DatabaseHelper.getInstance(ListProduct_Application.getContext()).closeDatabase();
+    }
+
+    //CATEGORY METHOD
+    public Cursor getAllCategories(){
+        SQLiteDatabase sqLiteDatabase = DatabaseHelper.getInstance(ListProduct_Application.getContext()).openDatabase();
+        Cursor cursor = sqLiteDatabase.query(ManageProductContract.CategoryEntry.TABLE_NAME, ManageProductContract.CategoryEntry.SQL_ALL_COLUMN, null, null, null ,null, null);
+
+
+        return cursor;
     }
 }

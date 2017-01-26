@@ -5,33 +5,46 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.widget.CursorAdapter;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 
+import com.danielacedo.manageproductrecycler.database.DatabaseHelper;
+import com.danielacedo.manageproductrecycler.database.ManageProductContract;
+import com.danielacedo.manageproductrecycler.interfaces.CategoryPresenter;
 import com.danielacedo.manageproductrecycler.interfaces.IProduct;
 import com.danielacedo.manageproductrecycler.interfaces.ManagePresenter;
 import com.danielacedo.manageproductrecycler.model.Product;
+import com.danielacedo.manageproductrecycler.presenter.CategoryPresenterImpl;
 import com.danielacedo.manageproductrecycler.presenter.ManagePresenterImpl;
 
 /**
  * Activity used for adding new products to the application. After creating one successfully it calls back ListProductActivity
  * @author Daniel Acedo Calderón
  */
-public class ManageProductFragment extends Fragment implements ManagePresenter.View{
+public class ManageProductFragment extends Fragment implements ManagePresenter.View, CategoryPresenter.View{
 
     public static final String PRODUCT_RESULT_KEY = "productResult";
 
-    ManagePresenter presenter;
-    EditText edt_Name, edt_Description, edt_Price, edt_Brand, edt_Dosage, edt_Stock, edt_Image;
-    Button btn_AddProduct;
-    LinearLayout root;
+    CategoryPresenter presenterCategory;
+
+    private ManagePresenter presenter;
+    private EditText edt_Name, edt_Description, edt_Price, edt_Brand, edt_Dosage, edt_Stock, edt_Image;
+
+    private Spinner spCategory;
+    private CursorAdapter adapterCategory;
+
+    private Button btn_AddProduct;
+    private LinearLayout root;
     private ManageProductListener mCallback;
 
-    boolean editing;
+    private boolean editing;
 
     interface ManageProductListener {
         void showListProduct();
@@ -68,6 +81,9 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        presenter = new ManagePresenterImpl(this);
+        presenterCategory = new CategoryPresenterImpl();
+
     }
 
     @Nullable
@@ -79,7 +95,6 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
 
         if(rootview != null){
             editing = false;
-            presenter = new ManagePresenterImpl(this);
 
             edt_Name = (EditText) rootview.findViewById(R.id.edt_Name);
             edt_Description = (EditText) rootview.findViewById(R.id.edt_Description);
@@ -107,6 +122,8 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
                 }
             });
 
+            spCategory = (Spinner)rootview.findViewById(R.id.sp_Category);
+
             checkIntent();
         }
 
@@ -114,6 +131,31 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
 
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        String[] from = { ManageProductContract.CategoryEntry.COLUMN_NAME };
+        int[] to = {android.R.id.text1};
+        adapterCategory = new SimpleCursorAdapter(getContext(), android.R.layout.simple_spinner_dropdown_item, null, from, to, 0);
+        ((SimpleCursorAdapter)adapterCategory).setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spCategory.setAdapter(adapterCategory);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        //Call presenter to load data
+        presenterCategory.getAllCategory(adapterCategory);
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        adapterCategory.getCursor().close();
+        DatabaseHelper.getInstance(ListProduct_Application.getContext()).closeDatabase();
+    }
 
     private void addResultProduct(){
 
@@ -133,7 +175,7 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
             product = new Product(edt_Name.getText().toString(), edt_Description.getText().toString(),
                     Double.parseDouble(edt_Price.getText().toString()),
                     edt_Brand.getText().toString(), edt_Dosage.getText().toString(), Integer.parseInt(edt_Stock.getText().toString()),
-                    R.drawable.weed);
+                    R.drawable.weed, 1);
 
             presenter.addProduct(product);
         }

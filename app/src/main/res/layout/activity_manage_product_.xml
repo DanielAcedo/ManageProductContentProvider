@@ -68,6 +68,11 @@
         android:id="@+id/edt_Image"
         android:hint="@string/edt_Image" />
 
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sp_Category"></Spinner>
+
     <include layout="@layout/btnlogin"/>
 
 </LinearLayout>

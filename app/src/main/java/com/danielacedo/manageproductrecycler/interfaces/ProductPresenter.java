@@ -1,5 +1,7 @@
 package com.danielacedo.manageproductrecycler.interfaces;
 
+import android.app.ProgressDialog;
+
 import com.danielacedo.manageproductrecycler.model.Product;
 
 import java.util.List;
@@ -23,8 +25,10 @@ public interface ProductPresenter {
 
         void showEmptyState(boolean show);
 
-        void showMessage(String message);
+        void showMessage(int message);
 
         void showMessageDelete(Product product);
+
+        ProgressDialog getProgressDialog();
     }
 }

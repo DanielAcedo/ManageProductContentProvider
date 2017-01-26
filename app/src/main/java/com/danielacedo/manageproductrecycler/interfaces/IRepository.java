@@ -7,7 +7,7 @@ import com.danielacedo.manageproductrecycler.model.Product;
  */
 
 public interface IRepository {
-    Product getProductById(String id);
+    Product getProductById(int id);
 
     void deleteProduct(Product product);
 

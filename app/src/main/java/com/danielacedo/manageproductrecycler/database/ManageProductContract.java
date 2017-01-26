@@ -22,7 +22,9 @@ public final class ManageProductContract {
 
         public static final String SQL_DELETE_ENTRIES = String.format("DROP TABLE IF EXISTS %s", TABLE_NAME);
 
-        public static final String SQL_INSERT_ENTRIES = String.format("INSERT INTO %s (%s) VALUES ('%s')", TABLE_NAME, COLUMN_NAME, "Medicina");
+        public static final String SQL_INSERT_ENTRIES = String.format("INSERT INTO %s (%s) VALUES ('%s'), ('%s'), ('%s'), ('%s')", TABLE_NAME, COLUMN_NAME, "Medicina", "Homeopatia", "Jarabes", "Infancia");
+
+        public static final String[] SQL_ALL_COLUMN = {BaseColumns._ID, COLUMN_NAME};
     }
 
     public static class ProductEntry implements BaseColumns{

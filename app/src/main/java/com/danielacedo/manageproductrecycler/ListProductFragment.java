@@ -1,6 +1,7 @@
 package com.danielacedo.manageproductrecycler;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -38,6 +39,8 @@ public class ListProductFragment extends Fragment implements ProductPresenter.Vi
     private ListView lv_ListProduct;
     private TextView txv_empty;
     private FloatingActionButton fab_AddProduct;
+    private ProgressDialog progressDialog;
+    private View root;
 
     private ListProductListener mCallback;
     ProductPresenter presenter;
@@ -101,6 +104,8 @@ public class ListProductFragment extends Fragment implements ProductPresenter.Vi
             }
         });
 
+        progressDialog = new ProgressDialog(getContext());
+
         txv_empty = (TextView)rootview.findViewById(android.R.id.empty);
 
         registerForContextMenu(lv_ListProduct);
@@ -113,6 +118,8 @@ public class ListProductFragment extends Fragment implements ProductPresenter.Vi
                 mCallback.showManageProduct(null);
             }
         });
+
+        root = rootview.findViewById(R.id.list_product);
 
         return rootview;
     }
@@ -176,6 +183,11 @@ public class ListProductFragment extends Fragment implements ProductPresenter.Vi
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public ProgressDialog getProgressDialog() {
+        return progressDialog;
+    }
+
     public void showProducts(List<Product> products){
         adapter.updateProduct(products);
     }
@@ -189,9 +201,6 @@ public class ListProductFragment extends Fragment implements ProductPresenter.Vi
         hideList(show);
     }
 
-    public void showMessage(String message){
-
-    }
 
     @Override
     public void showMessageDelete(final Product product){
@@ -218,7 +227,10 @@ public class ListProductFragment extends Fragment implements ProductPresenter.Vi
         }).show();*/
     }
 
-
+    @Override
+    public void showMessage(int message) {
+        Snackbar.make(root, getResources().getString(message), Snackbar.LENGTH_SHORT).show();
+    }
 
     @Override
     public void onDestroy() {

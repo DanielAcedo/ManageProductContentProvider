@@ -47,6 +47,8 @@
 
     <!-- ListProductFragment -->
     <string name="nodata">No hay productos</string>
+    <string name="message_loading_products">Cargando productos</string>
+    <string name="message_loading_cancelled">Carga cancelada</string>
 
     <!-- DrawerToggle -->
     <string name="drawer_open">Drawer abierto</string>

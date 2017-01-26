@@ -1,6 +1,7 @@
 package com.danielacedo.manageproductrecycler;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -38,11 +39,17 @@ public class MultiListProductFragment extends Fragment implements ProductPresent
     private ListView lv_ListProduct;
     private TextView txv_empty;
     private FloatingActionButton fab_AddProduct;
+    private ProgressDialog dialog;
 
     private List<View> hiddenViews;
+    private ViewGroup root;
 
     private MultiListProductListener mCallback;
-    ProductPresenter presenter;
+    private ProductPresenter presenter;
+
+    private ProgressDialog progressDialog;
+
+
 
     interface MultiListProductListener{
         void showManageProduct(Bundle bundle);
@@ -98,6 +105,10 @@ public class MultiListProductFragment extends Fragment implements ProductPresent
 
         //FloatingActionButton
         fab_AddProduct = (FloatingActionButton) rootview.findViewById(R.id.fab_AddProduct);
+
+        root = (ViewGroup) rootview.findViewById(R.id.list_product);
+
+        progressDialog = new ProgressDialog(getContext());
 
         return rootview;
     }
@@ -170,6 +181,15 @@ public class MultiListProductFragment extends Fragment implements ProductPresent
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Returns a progressdialog in its context
+     * @return ProgressDialog
+     */
+    @Override
+    public ProgressDialog getProgressDialog() {
+        return progressDialog;
+    }
+
     public void showProducts(List<Product> products){
         adapter.updateProduct(products);
     }
@@ -183,9 +203,13 @@ public class MultiListProductFragment extends Fragment implements ProductPresent
         hideList(show);
     }
 
-    public void showMessage(String message){
 
+    @Override
+    public void showMessage(int message) {
+        if(root != null)
+            Snackbar.make(root, getResources().getString(message), Snackbar.LENGTH_SHORT).show();
     }
+
 
     @Override
     public void showMessageDelete(final Product product){
@@ -211,8 +235,6 @@ public class MultiListProductFragment extends Fragment implements ProductPresent
             }
         }).show();*/
     }
-
-
 
     @Override
     public void onDestroy() {
