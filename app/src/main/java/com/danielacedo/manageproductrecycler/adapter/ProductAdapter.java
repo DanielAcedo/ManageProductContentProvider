@@ -35,7 +35,7 @@ public class ProductAdapter extends ArrayAdapter<Product> {
      * @param context
      */
     public ProductAdapter(Context context){
-        super(context, R.layout.item_product, new ArrayList<Product>(DatabaseManager.getInstance().getAllProducts()));
+        super(context, R.layout.item_product, new ArrayList<Product>());
 
         isAlphabeticallyAscendant = false;
     }

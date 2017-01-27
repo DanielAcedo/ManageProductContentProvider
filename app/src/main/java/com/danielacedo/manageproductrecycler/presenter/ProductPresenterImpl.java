@@ -47,8 +47,6 @@ public class ProductPresenterImpl implements ProductPresenter {
     }*/
 
     public void loadProducts(){
-        List<Product> products = null;
-
         new AsyncTask<Void, Integer, List<Product>>(){
             ProgressDialog progressDialog = view.getProgressDialog();
             @Override

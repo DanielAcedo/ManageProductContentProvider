@@ -1,12 +1,14 @@
 package com.danielacedo.manageproductrecycler;
 
 import android.app.Activity;
+import android.content.Context;
+import android.database.Cursor;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.widget.CursorAdapter;
-import android.support.v4.widget.SimpleCursorAdapter;
+import android.widget.CursorAdapter;
+import android.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +16,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.danielacedo.manageproductrecycler.database.DatabaseHelper;
+import com.danielacedo.manageproductrecycler.database.DatabaseManager;
 import com.danielacedo.manageproductrecycler.database.ManageProductContract;
 import com.danielacedo.manageproductrecycler.interfaces.CategoryPresenter;
 import com.danielacedo.manageproductrecycler.interfaces.IProduct;
@@ -75,6 +79,7 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
     public void onDetach() {
         super.onDetach();
         mCallback = null;
+        adapterCategory = null;
     }
 
     @Override
@@ -82,9 +87,10 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
         super.onCreate(savedInstanceState);
 
         presenter = new ManagePresenterImpl(this);
-        presenterCategory = new CategoryPresenterImpl();
-
+        presenterCategory = new CategoryPresenterImpl(this);
     }
+
+
 
     @Nullable
     @Override
@@ -147,19 +153,29 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
         super.onStart();
 
         //Call presenter to load data
-        presenterCategory.getAllCategory(adapterCategory);
+        presenterCategory.getAllCategory();
     }
 
     @Override
     public void onStop(){
         super.onStop();
-        adapterCategory.getCursor().close();
-        DatabaseHelper.getInstance(ListProduct_Application.getContext()).closeDatabase();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void setCursorCategory(Cursor cursor) {
+        adapterCategory.changeCursor(cursor);
     }
 
     private void addResultProduct(){
 
         Product product;
+        adapterCategory.getCursor().moveToPosition(spCategory.getSelectedItemPosition());
+        int idCategory = adapterCategory.getCursor().getInt(0);
 
         if(editing){
             product = getEditProduct();
@@ -169,13 +185,14 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
             product.setDosage(edt_Dosage.getText().toString());
             product.setStock(Integer.parseInt(edt_Stock.getText().toString()));
             product.setPrice(Double.parseDouble(edt_Price.getText().toString()));
+            product.setId_category(idCategory);
 
             presenter.updateProduct(product);
         }else{
             product = new Product(edt_Name.getText().toString(), edt_Description.getText().toString(),
                     Double.parseDouble(edt_Price.getText().toString()),
                     edt_Brand.getText().toString(), edt_Dosage.getText().toString(), Integer.parseInt(edt_Stock.getText().toString()),
-                    R.drawable.weed, 1);
+                    R.drawable.weed, idCategory);
 
             presenter.addProduct(product);
         }
