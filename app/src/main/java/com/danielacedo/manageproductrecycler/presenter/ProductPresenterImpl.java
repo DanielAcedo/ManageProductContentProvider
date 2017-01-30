@@ -77,6 +77,7 @@ public class ProductPresenterImpl implements ProductPresenter {
                 super.onCancelled();
 
                 view.showMessage(R.string.message_loading_cancelled);
+                progressDialog.dismiss();
             }
         }.execute();
     }

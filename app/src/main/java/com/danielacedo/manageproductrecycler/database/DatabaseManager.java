@@ -4,10 +4,13 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.provider.BaseColumns;
 import android.support.v4.app.AppLaunchChecker;
+import android.util.Log;
 
 import com.danielacedo.manageproductrecycler.ListProduct_Application;
+import com.danielacedo.manageproductrecycler.model.Pharmacy;
 import com.danielacedo.manageproductrecycler.model.Product;
 
 import java.util.ArrayList;
@@ -60,6 +63,24 @@ public class DatabaseManager {
                 products.add(new Product(id, name, description, price, brand, dosage, stock, image, id_category));
             }while(cursor.moveToNext());
         }
+
+        cursor.close();
+
+        //Show in log union between product and category tables
+        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+        builder.setTables(ManageProductContract.ProductEntry.PRODUCT_JOIN_CATEGORY);
+        cursor = builder.query(sqLiteDatabase, ManageProductContract.ProductEntry.COLUMNS_PRODUCT_JOIN_CATEGORY, null, null, null, null, null);
+
+        if(cursor.moveToFirst()){
+            do {
+                String product = cursor.getString(0);
+                String description = cursor.getString(1);
+                String category = cursor.getString(2);
+                Log.e("ProductJOIN", product+", "+description+", "+category);
+            }while (cursor.moveToNext());
+        }
+
+        cursor.close();
 
         DatabaseHelper.getInstance(ListProduct_Application.getContext()).closeDatabase();
 
@@ -116,6 +137,14 @@ public class DatabaseManager {
         SQLiteDatabase sqLiteDatabase = DatabaseHelper.getInstance(ListProduct_Application.getContext()).openDatabase();
         Cursor cursor = sqLiteDatabase.query(ManageProductContract.CategoryEntry.TABLE_NAME, ManageProductContract.CategoryEntry.SQL_ALL_COLUMN, null, null, null ,null, null);
 
+
+        return cursor;
+    }
+
+    //PHARMACY METHODS
+    public Cursor getAllPharmacy(){
+        SQLiteDatabase db = DatabaseHelper.getInstance(ListProduct_Application.getContext()).openDatabase();
+        Cursor cursor = db.query(ManageProductContract.PharmacyEntry.TABLE_NAME, ManageProductContract.PharmacyEntry.SQL_ALL_COLUMN, null, null, null, null, null);
 
         return cursor;
     }

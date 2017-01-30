@@ -1,5 +1,7 @@
 package com.danielacedo.manageproductrecycler.model;
 
+import java.util.Comparator;
+
 /**
  * Created by usuario on 11/01/17.
  */
@@ -10,6 +12,25 @@ public class Pharmacy {
     private String address;
     private String telephone_number;
     private String email;
+
+    public static final Comparator<Pharmacy> NAME_ASCENDANT_COMPARATOR =
+            new Comparator<Pharmacy>() {
+                @Override
+                public int compare(Pharmacy o1, Pharmacy o2) {
+                    return o1.getCif().compareTo(o2.getCif());
+                }
+            };
+
+    public static final Comparator<Pharmacy> NAME_DESCENDANT_COMPARATOR =
+            new Comparator<Pharmacy>() {
+                @Override
+                public int compare(Pharmacy o1, Pharmacy o2) {
+                    return -1 * NAME_ASCENDANT_COMPARATOR.compare(o1, o2);
+                }
+            };
+
+
+    public Pharmacy(){}
 
     public Pharmacy(int id, String cif, String address, String telephone_number, String email) {
         this.id = id;

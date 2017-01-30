@@ -90,8 +90,6 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
         presenterCategory = new CategoryPresenterImpl(this);
     }
 
-
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

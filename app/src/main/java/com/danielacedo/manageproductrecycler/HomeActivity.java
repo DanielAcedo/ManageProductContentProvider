@@ -31,6 +31,7 @@ public class HomeActivity extends AppCompatActivity implements ManageProductFrag
     private Toolbar toolbar;
     private MultiListProductFragment listProductFragment;
     private ManageProductFragment manageProductFragment;
+    private ListPharmacyFragment pharmacyFragment;
     private boolean pressed = false;
     private long currentPressMillis;
 
@@ -123,7 +124,7 @@ public class HomeActivity extends AppCompatActivity implements ManageProductFrag
                     break;
 
                     case R.id.action_pharmacy:
-                        //onListPharmacyListener();
+                        showListPharmacy();
                         break;
 
                     default:
@@ -188,6 +189,13 @@ public class HomeActivity extends AppCompatActivity implements ManageProductFrag
     @Override
     public void showListProduct() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction().replace(R.id.framehome, listProductFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    public void showListPharmacy(){
+        pharmacyFragment = new ListPharmacyFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction().replace(R.id.framehome, pharmacyFragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
