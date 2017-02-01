@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.danielacedo.manageproductrecycler.adapter.PharmacyAdapter;
+import com.danielacedo.manageproductrecycler.database.ManageProductContract;
 import com.danielacedo.manageproductrecycler.interfaces.IProduct;
 import com.danielacedo.manageproductrecycler.interfaces.PharmacyPresenter;
 import com.danielacedo.manageproductrecycler.interfaces.ProductPresenter;
@@ -43,11 +44,11 @@ public class ListPharmacyFragment extends Fragment implements PharmacyPresenter.
     private ProgressDialog progressDialog;
     private View root;
 
-    private ListProductListener mCallback;
+    private ListPharmacyListener mCallback;
     PharmacyPresenter presenter;
 
-    interface ListProductListener{
-        void showManageProduct(Bundle bundle);
+    interface ListPharmacyListener{
+        void showManagePharmacy(Bundle bundle);
     }
 
 
@@ -101,7 +102,7 @@ public class ListPharmacyFragment extends Fragment implements PharmacyPresenter.
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(IProduct.PRODUCT_KEY, (Product)parent.getItemAtPosition(position));
 
-                mCallback.showManageProduct(bundle);
+                mCallback.showManagePharmacy(bundle);
             }
         });
 
@@ -116,7 +117,7 @@ public class ListPharmacyFragment extends Fragment implements PharmacyPresenter.
         fab_AddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCallback.showManageProduct(null);
+                mCallback.showManagePharmacy(null);
             }
         });
 
@@ -174,7 +175,7 @@ public class ListPharmacyFragment extends Fragment implements PharmacyPresenter.
 
         switch (item.getItemId()){
             case R.id.action_add_product:
-                mCallback.showManageProduct(null);
+                mCallback.showManagePharmacy(null);
                 break;
             case R.id.action_sort_alphabetically:
                 //adapter.getAlphabeticallySortedProducts();

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import com.danielacedo.manageproductrecycler.R;
@@ -52,14 +53,27 @@ public class PharmacyAdapter extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.item_pharmacy, null);
+        View rootView = LayoutInflater.from(context).inflate(R.layout.item_pharmacy, null);
+
+        PharmacyHolder holder = new PharmacyHolder();
+        holder.txv_cif = (TextView) rootView.findViewById(R.id.txv_pharmacy_cif);
+        holder.txv_address = (TextView)rootView.findViewById(R.id.txv_pharmacy_address);
+        holder.txv_phone = (TextView)rootView.findViewById(R.id.txv_pharmacy_phone);
+        holder.txv_email = (TextView)rootView.findViewById(R.id.txv_pharmacy_email);
+
+        rootView.setTag(holder);
+
+        return rootView;
     }
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        PharmacyHolder holder = new PharmacyHolder();
-        holder.txv_cif = (TextView) view.findViewById(R.id.txv_pharmacy_cif);
+        PharmacyHolder holder = (PharmacyHolder)view.getTag();
         holder.txv_cif.setText(getItem(cursor.getPosition()).getCif());
+        holder.txv_address.setText(getItem(cursor.getPosition()).getAddress());
+        holder.txv_phone.setText(getItem(cursor.getPosition()).getTelephone_number());
+        holder.txv_email.setText(getItem(cursor.getPosition()).getEmail());
+
     }
 
     public void updatePharmacy(Cursor cursor){
@@ -68,6 +82,9 @@ public class PharmacyAdapter extends CursorAdapter {
 
     static class PharmacyHolder {
         TextView txv_cif;
+        TextView txv_address;
+        TextView txv_phone;
+        TextView txv_email;
     }
 
 
