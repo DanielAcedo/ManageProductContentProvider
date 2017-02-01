@@ -20,11 +20,13 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.danielacedo.manageproductrecycler.interfaces.ManagePharmacyPresenter;
+
 /**
  * Created by usuario on 1/12/16.
  */
 
-public class HomeActivity extends AppCompatActivity implements ManageProductFragment.ManageProductListener, MultiListProductFragment.MultiListProductListener {
+public class HomeActivity extends AppCompatActivity implements ManageProductFragment.ManageProductListener, MultiListProductFragment.MultiListProductListener, ListPharmacyFragment.ListPharmacyListener, ManagePharmacyFragment.ManagePharmacyListener {
     private static final int LONG_DELAY = 3500;
     private static final int SHORT_DELAY = 2000;
 
@@ -196,6 +198,14 @@ public class HomeActivity extends AppCompatActivity implements ManageProductFrag
     public void showListPharmacy(){
         pharmacyFragment = new ListPharmacyFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction().replace(R.id.framehome, pharmacyFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    @Override
+    public void showManagePharmacy(Bundle bundle) {
+        ManagePharmacyFragment managePharmacyFragment = ManagePharmacyFragment.newInstance(bundle);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction().replace(R.id.framehome, managePharmacyFragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }

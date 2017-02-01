@@ -6,7 +6,7 @@ import com.danielacedo.manageproductrecycler.model.Product;
  * Created by usuario on 12/12/16.
  */
 
-public interface ManagePresenter {
+public interface ManageProductPresenter {
     void addProduct(Product product);
 
     void updateProduct(Product product);

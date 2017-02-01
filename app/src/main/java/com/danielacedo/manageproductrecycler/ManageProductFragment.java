@@ -1,7 +1,6 @@
 package com.danielacedo.manageproductrecycler;
 
 import android.app.Activity;
-import android.content.Context;
 import android.database.Cursor;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -16,14 +15,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-import com.danielacedo.manageproductrecycler.database.DatabaseHelper;
-import com.danielacedo.manageproductrecycler.database.DatabaseManager;
 import com.danielacedo.manageproductrecycler.database.ManageProductContract;
 import com.danielacedo.manageproductrecycler.interfaces.CategoryPresenter;
 import com.danielacedo.manageproductrecycler.interfaces.IProduct;
-import com.danielacedo.manageproductrecycler.interfaces.ManagePresenter;
+import com.danielacedo.manageproductrecycler.interfaces.ManageProductPresenter;
 import com.danielacedo.manageproductrecycler.model.Product;
 import com.danielacedo.manageproductrecycler.presenter.CategoryPresenterImpl;
 import com.danielacedo.manageproductrecycler.presenter.ManagePresenterImpl;
@@ -32,13 +28,13 @@ import com.danielacedo.manageproductrecycler.presenter.ManagePresenterImpl;
  * Activity used for adding new products to the application. After creating one successfully it calls back ListProductActivity
  * @author Daniel Acedo Calderón
  */
-public class ManageProductFragment extends Fragment implements ManagePresenter.View, CategoryPresenter.View{
+public class ManageProductFragment extends Fragment implements ManageProductPresenter.View, CategoryPresenter.View{
 
     public static final String PRODUCT_RESULT_KEY = "productResult";
 
     CategoryPresenter presenterCategory;
 
-    private ManagePresenter presenter;
+    private ManageProductPresenter presenter;
     private EditText edt_Name, edt_Description, edt_Price, edt_Brand, edt_Dosage, edt_Stock, edt_Image;
 
     private Spinner spCategory;

@@ -148,4 +148,23 @@ public class DatabaseManager {
 
         return cursor;
     }
+
+    public void addPharmacy(Pharmacy pharmacy){
+        SQLiteDatabase sqLiteDatabase = DatabaseHelper.getInstance(ListProduct_Application.getContext()).openDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(ManageProductContract.PharmacyEntry.COLUMN_CIF, pharmacy.getCif());
+        values.put(ManageProductContract.PharmacyEntry.COLUMN_ADDRESS, pharmacy.getAddress());
+        values.put(ManageProductContract.PharmacyEntry.COLUMN_TELEPHONENUMBER, pharmacy.getTelephone_number());
+        values.put(ManageProductContract.PharmacyEntry.COLUMN_EMAIL, pharmacy.getEmail());
+
+        try{
+            sqLiteDatabase.insertOrThrow(ManageProductContract.PharmacyEntry.TABLE_NAME, null, values);
+        }catch (SQLException e){
+            e.getMessage();
+        }
+
+        DatabaseHelper.getInstance(ListProduct_Application.getContext()).closeDatabase();
+    }
 }

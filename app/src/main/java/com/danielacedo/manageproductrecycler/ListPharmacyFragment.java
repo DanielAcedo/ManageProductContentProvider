@@ -56,7 +56,7 @@ public class ListPharmacyFragment extends Fragment implements PharmacyPresenter.
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try{
-            //mCallback = (ListProductListener)activity;
+            mCallback = (ListPharmacyListener)activity;
         }catch(ClassCastException e){
             throw new ClassCastException(getContext().toString() + "must implement ListProductListener");
         }
@@ -100,7 +100,7 @@ public class ListPharmacyFragment extends Fragment implements PharmacyPresenter.
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bundle bundle = new Bundle();
-                bundle.putParcelable(IProduct.PRODUCT_KEY, (Product)parent.getItemAtPosition(position));
+                bundle.putParcelable(Pharmacy.PHARMACY_KEY, (Pharmacy)parent.getItemAtPosition(position));
 
                 mCallback.showManagePharmacy(bundle);
             }

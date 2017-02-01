@@ -22,4 +22,10 @@
     <string name="err_productImage_empty">Debe introducir la imagen</string>
     <string name="err_addProduct_formatNumber">Introduce un número</string>
 
+    <!-- ManagePharmacyFragment -->
+    <string name="err_pharmacyCif_empty">Debe introducir un CIF</string>
+    <string name="err_pharmacyAddress_empty">Debe introducir una dirección</string>
+    <string name="err_pharmacyPhone_empty">Debe introducir un teléfono</string>
+    <string name="err_pharmacyEmail_empty">Debe introducir un email</string>
+
 </resources>

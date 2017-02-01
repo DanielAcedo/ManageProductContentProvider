@@ -1,12 +1,17 @@
 package com.danielacedo.manageproductrecycler.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Comparator;
 
 /**
  * Created by usuario on 11/01/17.
  */
 
-public class Pharmacy {
+public class Pharmacy implements Parcelable {
+    public static final String PHARMACY_KEY = "pharmacyKey";
+
     private int id;
     private String cif;
     private String address;
@@ -39,6 +44,26 @@ public class Pharmacy {
         this.telephone_number = telephone_number;
         this.email = email;
     }
+
+    protected Pharmacy(Parcel in) {
+        id = in.readInt();
+        cif = in.readString();
+        address = in.readString();
+        telephone_number = in.readString();
+        email = in.readString();
+    }
+
+    public static final Creator<Pharmacy> CREATOR = new Creator<Pharmacy>() {
+        @Override
+        public Pharmacy createFromParcel(Parcel in) {
+            return new Pharmacy(in);
+        }
+
+        @Override
+        public Pharmacy[] newArray(int size) {
+            return new Pharmacy[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -78,5 +103,19 @@ public class Pharmacy {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(cif);
+        dest.writeString(address);
+        dest.writeString(telephone_number);
+        dest.writeString(email);
     }
 }

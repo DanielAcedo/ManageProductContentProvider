@@ -1,22 +1,20 @@
 package com.danielacedo.manageproductrecycler.presenter;
 
-import android.content.Context;
-
 import com.danielacedo.manageproductrecycler.ProductRepository;
 import com.danielacedo.manageproductrecycler.R;
 import com.danielacedo.manageproductrecycler.database.DatabaseManager;
-import com.danielacedo.manageproductrecycler.interfaces.ManagePresenter;
+import com.danielacedo.manageproductrecycler.interfaces.ManageProductPresenter;
 import com.danielacedo.manageproductrecycler.model.Product;
 
 /**
  * Created by usuario on 12/12/16.
  */
 
-public class ManagePresenterImpl implements ManagePresenter {
+public class ManagePresenterImpl implements ManageProductPresenter {
 
-    private ManagePresenter.View view;
+    private ManageProductPresenter.View view;
 
-    public ManagePresenterImpl(ManagePresenter.View view){
+    public ManagePresenterImpl(ManageProductPresenter.View view){
         this.view = view;
     }
 
