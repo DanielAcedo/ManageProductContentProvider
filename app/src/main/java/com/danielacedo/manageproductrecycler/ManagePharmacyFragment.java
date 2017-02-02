@@ -139,13 +139,13 @@ public class ManagePharmacyFragment extends Fragment implements ManagePharmacyPr
 
         if(editing){
             //TODO ADD UPDATEPHARMACY
-            pharmacy = new Pharmacy();
+            pharmacy = getEditPharmacy();
             pharmacy.setCif(edt_cif.getText().toString());
             pharmacy.setAddress(edt_address.getText().toString());
             pharmacy.setTelephone_number(edt_phone.getText().toString());
             pharmacy.setEmail(edt_email.getText().toString());
 
-            presenter.addPharmacy(pharmacy);
+            presenter.updatePharmacy(pharmacy);
             mCallback.showListPharmacy();
         }else{
             pharmacy = new Pharmacy();

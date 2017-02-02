@@ -18,6 +18,12 @@ public interface ProductPresenter {
 
     void addProduct(Product product);
 
+    void addSelection(int id);
+
+    void removeSelection(int id);
+
+    void deleteSelected();
+
     void onDestroy();
 
     interface View{
@@ -28,6 +34,8 @@ public interface ProductPresenter {
         void showMessage(int message);
 
         void showMessageDelete(Product product);
+
+        Product getProduct(int position);
 
         ProgressDialog getProgressDialog();
     }

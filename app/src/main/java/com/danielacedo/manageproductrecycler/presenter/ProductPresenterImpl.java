@@ -2,11 +2,13 @@ package com.danielacedo.manageproductrecycler.presenter;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 
 import com.danielacedo.manageproductrecycler.ListProduct_Application;
 import com.danielacedo.manageproductrecycler.ProductRepository;
 import com.danielacedo.manageproductrecycler.R;
+import com.danielacedo.manageproductrecycler.database.DatabaseHelper;
 import com.danielacedo.manageproductrecycler.database.DatabaseManager;
 import com.danielacedo.manageproductrecycler.interfaces.ProductPresenter;
 import com.danielacedo.manageproductrecycler.model.Product;
@@ -21,8 +23,12 @@ import java.util.List;
 public class ProductPresenterImpl implements ProductPresenter {
     private ProductPresenter.View view;
 
+    private List<Integer> selectedItemsPosition;
+
     public ProductPresenterImpl(ProductPresenter.View view){
         this.view = view;
+
+        selectedItemsPosition = new ArrayList<>();
     }
 
     @Override
@@ -93,6 +99,31 @@ public class ProductPresenterImpl implements ProductPresenter {
         DatabaseManager.getInstance().deleteProduct(product);
         loadProducts();
         view.showMessageDelete(product);
+    }
+
+    @Override
+    public void addSelection(int position) {
+        selectedItemsPosition.add(position);
+    }
+
+    @Override
+    public void removeSelection(int position) {
+        selectedItemsPosition.remove((Integer)position);
+    }
+
+    @Override
+    public void deleteSelected() {
+        List<Product> products = new ArrayList<>();
+
+        for (int position: selectedItemsPosition) {
+            products.add(view.getProduct(position));
+        }
+
+        if(DatabaseManager.getInstance().deleteProducts(products)){
+            loadProducts();
+        }else{
+            view.showMessage(R.string.err_product_remove_error);
+        }
     }
 
     @Override

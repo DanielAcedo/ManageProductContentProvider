@@ -12,7 +12,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 
+import com.danielacedo.manageproductrecycler.adapter.ProductAdapter;
 import com.danielacedo.manageproductrecycler.interfaces.ProductPresenter;
+import com.danielacedo.manageproductrecycler.model.Product;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,27 +28,27 @@ public class SimpleMultiChoiceModeListener implements AbsListView.MultiChoiceMod
 
 
     private Context context;
-    private ProductPresenter presenter;
+    ProductPresenter presenter;
 
     private List<View> hiddenViews;
     private int cont = 0;
 
     private int statusBarColor;
 
-    public SimpleMultiChoiceModeListener(Context context,ProductPresenter presenter, List<View> hiddenViews){
+    public SimpleMultiChoiceModeListener(Context context, ProductPresenter presenter, List<View> hiddenViews){
         this.context = context;
-        this.presenter = presenter;
         this.hiddenViews = hiddenViews;
+        this.presenter = presenter;
     }
 
     @Override
     public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
         if(checked){
             cont++;
-            //TODO adapter.addSelection(position, checked);
+            presenter.addSelection(position);
         }else{
             cont--;
-            //TODO adapter.removeSelection(position, checked);
+            presenter.removeSelection(position);
         }
 
         mode.setTitle(String.valueOf(cont));
@@ -78,7 +80,7 @@ public class SimpleMultiChoiceModeListener implements AbsListView.MultiChoiceMod
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         switch (item.getItemId()){
             case R.id.ctx_menu_product_delete:
-                //TODO presenter.deleteSelectedProduct();
+                presenter.deleteSelected();
                 break;
         }
 
@@ -96,7 +98,8 @@ public class SimpleMultiChoiceModeListener implements AbsListView.MultiChoiceMod
             ((Activity)context).getWindow().setStatusBarColor(statusBarColor);
         }
 
-
-        presenter = null;
+        cont = 0;
     }
+
+
 }

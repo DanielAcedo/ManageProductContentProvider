@@ -1,6 +1,7 @@
 package com.danielacedo.manageproductrecycler.interfaces;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.database.Cursor;
 
 import com.danielacedo.manageproductrecycler.model.Pharmacy;
@@ -18,7 +19,7 @@ public interface PharmacyPresenter {
 
     void deletePharmacy(Pharmacy pharmacy);
 
-    void addPharmacy(Pharmacy product);
+    void addPharmacy(Pharmacy pharmacy);
 
     void onDestroy();
 
@@ -28,6 +29,8 @@ public interface PharmacyPresenter {
         void showEmptyState(boolean show);
 
         void showMessage(int message);
+
+        Context getContext();
 
         void showMessageDelete(Pharmacy pharmacy);
 

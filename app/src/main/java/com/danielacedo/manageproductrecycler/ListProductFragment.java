@@ -51,6 +51,11 @@ public class ListProductFragment extends Fragment implements ProductPresenter.Vi
 
 
     @Override
+    public Product getProduct(int position) {
+        return adapter.getItem(position);
+    }
+
+    @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try{
@@ -200,7 +205,6 @@ public class ListProductFragment extends Fragment implements ProductPresenter.Vi
     public void showEmptyState(boolean show){
         hideList(show);
     }
-
 
     @Override
     public void showMessageDelete(final Product product){

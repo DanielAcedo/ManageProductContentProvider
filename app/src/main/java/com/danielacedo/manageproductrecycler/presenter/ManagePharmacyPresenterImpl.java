@@ -47,4 +47,9 @@ public class ManagePharmacyPresenterImpl implements ManagePharmacyPresenter {
     public void addPharmacy(Pharmacy pharmacy) {
         DatabaseManager.getInstance().addPharmacy(pharmacy);
     }
+
+    @Override
+    public void updatePharmacy(Pharmacy pharmacy) {
+        DatabaseManager.getInstance().updatePharmacy(pharmacy);
+    }
 }

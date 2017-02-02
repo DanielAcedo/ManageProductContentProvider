@@ -47,9 +47,6 @@ public class MultiListProductFragment extends Fragment implements ProductPresent
     private MultiListProductListener mCallback;
     private ProductPresenter presenter;
 
-    private ProgressDialog progressDialog;
-
-
 
     interface MultiListProductListener{
         void showManageProduct(Bundle bundle);
@@ -108,7 +105,7 @@ public class MultiListProductFragment extends Fragment implements ProductPresent
 
         root = (ViewGroup) rootview.findViewById(R.id.list_product);
 
-        progressDialog = new ProgressDialog(getContext());
+        dialog = new ProgressDialog(getContext());
 
         return rootview;
     }
@@ -130,6 +127,8 @@ public class MultiListProductFragment extends Fragment implements ProductPresent
             }
         });
 
+
+        dialog = new ProgressDialog(getContext());
 
         lv_ListProduct.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
         SimpleMultiChoiceModeListener mcl = new SimpleMultiChoiceModeListener(getActivity(), presenter, hiddenViews);
@@ -153,9 +152,14 @@ public class MultiListProductFragment extends Fragment implements ProductPresent
 
     }
 
+    @Override
+    public Product getProduct(int position) {
+        return adapter.getItem(position);
+    }
+
     /*
-                    Inflates menu in the fragment
-        */
+                        Inflates menu in the fragment
+            */
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -187,7 +191,7 @@ public class MultiListProductFragment extends Fragment implements ProductPresent
      */
     @Override
     public ProgressDialog getProgressDialog() {
-        return progressDialog;
+        return dialog;
     }
 
     public void showProducts(List<Product> products){

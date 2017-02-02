@@ -14,7 +14,10 @@ public interface ManagePharmacyPresenter {
     int ERR_EMAIL_EMPTY = 4;
 
     boolean validateFields(String cif, String address, String phoneNumber, String email);
+
     void addPharmacy(Pharmacy pharmacy);
+
+    void updatePharmacy(Pharmacy pharmacy);
 
     interface View{
         void showMessage(int msgId);

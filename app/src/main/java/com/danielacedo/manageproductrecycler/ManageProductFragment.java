@@ -190,6 +190,8 @@ public class ManageProductFragment extends Fragment implements ManageProductPres
 
             presenter.addProduct(product);
         }
+
+        mCallback.showListProduct();
     }
 
     private Product getEditProduct(){

@@ -25,7 +25,7 @@ public class ManagePresenterImpl implements ManageProductPresenter {
 
     @Override
     public void updateProduct(Product product) {
-        ProductRepository.getInstance().updateProduct(product);
+        DatabaseManager.getInstance().updateProduct(product);
     }
 
     @Override

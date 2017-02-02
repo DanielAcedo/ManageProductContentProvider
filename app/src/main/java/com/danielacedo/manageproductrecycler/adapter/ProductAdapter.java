@@ -29,6 +29,7 @@ import java.util.List;
 public class ProductAdapter extends ArrayAdapter<Product> {
 
     private boolean isAlphabeticallyAscendant;
+    List<Integer> selectedItems;
 
     /**
      * We pass a new ArrayList containing the objects from the repository to obtain a local copy
@@ -36,6 +37,8 @@ public class ProductAdapter extends ArrayAdapter<Product> {
      */
     public ProductAdapter(Context context){
         super(context, R.layout.item_product, new ArrayList<Product>());
+
+        selectedItems = new ArrayList<>();
 
         isAlphabeticallyAscendant = false;
     }
@@ -137,10 +140,22 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         sort(Product.NAME_DESCENDANT_COMPARATOR);
     }
 
+    public void addSelection(int position){
+        selectedItems.add(position);
+    }
+
+    public void removeSelection(int position){
+        selectedItems.remove((Integer)position);
+    }
+
+    public void deleteSelectedProducts(){
+        for (int pos: selectedItems) {
+            remove(pos);
+        }
+    }
+
     static class ProductHolder{
         ImageView imv_listProduct_Image;
         TextView txv_listProduct_Name, txv_listProduct_Price, txv_listProduct_Stock;
     }
-
-
 }

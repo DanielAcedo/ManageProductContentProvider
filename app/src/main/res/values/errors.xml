@@ -28,4 +28,7 @@
     <string name="err_pharmacyPhone_empty">Debe introducir un teléfono</string>
     <string name="err_pharmacyEmail_empty">Debe introducir un email</string>
 
+    <!-- Product -->
+    <string name="err_product_remove_error">Error al borrar los productos</string>
+
 </resources>

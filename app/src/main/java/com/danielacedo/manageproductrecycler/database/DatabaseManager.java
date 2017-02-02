@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.provider.BaseColumns;
 import android.support.v4.app.AppLaunchChecker;
@@ -88,7 +89,24 @@ public class DatabaseManager {
     }
 
     public void updateProduct(Product p){
+        SQLiteDatabase sqLiteDatabase = DatabaseHelper.getInstance(ListProduct_Application.getContext()).openDatabase();
 
+        String where = BaseColumns._ID+" = ?";
+        String[] whereArgs = {String.valueOf(p.getId())};
+
+        ContentValues values = new ContentValues();
+        values.put(ManageProductContract.ProductEntry.COLUMN_NAME, p.getName());
+        values.put(ManageProductContract.ProductEntry.COLUMN_DESCRIPTION, p.getDescription());
+        values.put(ManageProductContract.ProductEntry.COLUMN_BRAND, p.getBrand());
+        values.put(ManageProductContract.ProductEntry.COLUMN_DOSAGE, p.getDosage());
+        values.put(ManageProductContract.ProductEntry.COLUMN_PRICE, p.getPrice());
+        values.put(ManageProductContract.ProductEntry.COLUMN_STOCK, p.getStock());
+        values.put(ManageProductContract.ProductEntry.COLUMN_IMAGE, p.getImage());
+        values.put(ManageProductContract.ProductEntry.COLUMN_IDCATEGORY, p.getId_category());
+
+        sqLiteDatabase.update(ManageProductContract.ProductEntry.TABLE_NAME, values, where, whereArgs);
+
+        DatabaseHelper.getInstance(ListProduct_Application.getContext()).closeDatabase();
     }
 
     /**
@@ -98,11 +116,49 @@ public class DatabaseManager {
     public void deleteProduct(Product p){
         SQLiteDatabase sqLiteDatabase = DatabaseHelper.getInstance(ListProduct_Application.getContext()).openDatabase();
 
-        String where = "? = ?";
-        String[] whereArgs = new String[]{BaseColumns._ID , String.valueOf(p.getId())};
+        String where = BaseColumns._ID+"= ?";
+        String[] whereArgs = new String[]{String.valueOf(p.getId())};
         sqLiteDatabase.delete(ManageProductContract.ProductEntry.TABLE_NAME, where, whereArgs);
 
         DatabaseHelper.getInstance(ListProduct_Application.getContext()).closeDatabase();
+    }
+
+    public void deleteProduct(int id){
+        SQLiteDatabase sqLiteDatabase = DatabaseHelper.getInstance(ListProduct_Application.getContext()).openDatabase();
+
+        String where = BaseColumns._ID+"= ?";
+        String[] whereArgs = new String[]{String.valueOf(id)};
+        sqLiteDatabase.delete(ManageProductContract.ProductEntry.TABLE_NAME, where, whereArgs);
+
+        DatabaseHelper.getInstance(ListProduct_Application.getContext()).closeDatabase();
+    }
+
+    /**
+     * Deletes a list of products using a transaction
+     * @param products
+     * @return A boolean value representing the success or failing of the deleting
+     */
+    public boolean deleteProducts(List<Product> products){
+        boolean result = true;
+
+        SQLiteDatabase sqLiteDatabase = DatabaseHelper.getInstance(ListProduct_Application.getContext()).openDatabase();
+        sqLiteDatabase.beginTransaction();
+
+        try{
+            for (Product product: products) {
+                deleteProduct(product);
+            }
+
+            sqLiteDatabase.setTransactionSuccessful();
+        }catch(SQLiteException e){
+            result = false;
+        }finally {
+            sqLiteDatabase.endTransaction();
+        }
+
+        DatabaseHelper.getInstance(ListProduct_Application.getContext()).closeDatabase();
+
+        return result;
     }
 
     /**
@@ -164,6 +220,35 @@ public class DatabaseManager {
         }catch (SQLException e){
             e.getMessage();
         }
+
+        DatabaseHelper.getInstance(ListProduct_Application.getContext()).closeDatabase();
+    }
+
+    public void deletePharmacy(Pharmacy pharmacy){
+        SQLiteDatabase sqLiteDatabase = DatabaseHelper.getInstance(ListProduct_Application.getContext()).openDatabase();
+
+        String where = BaseColumns._ID+"=?";
+        String[] whereArgs = {Integer.toString(pharmacy.getId())};
+
+        sqLiteDatabase.delete(ManageProductContract.PharmacyEntry.TABLE_NAME, where, whereArgs);
+
+        DatabaseHelper.getInstance(ListProduct_Application.getContext()).closeDatabase();
+    }
+
+    public void updatePharmacy(Pharmacy pharmacy){
+        SQLiteDatabase sqLiteDatabase = DatabaseHelper.getInstance(ListProduct_Application.getContext()).openDatabase();
+
+        String where = BaseColumns._ID+"=?";
+        String[] whereArgs = {String.valueOf(pharmacy.getId())};
+
+        ContentValues values = new ContentValues();
+
+        values.put(ManageProductContract.PharmacyEntry.COLUMN_CIF, pharmacy.getCif());
+        values.put(ManageProductContract.PharmacyEntry.COLUMN_ADDRESS, pharmacy.getAddress());
+        values.put(ManageProductContract.PharmacyEntry.COLUMN_TELEPHONENUMBER, pharmacy.getTelephone_number());
+        values.put(ManageProductContract.PharmacyEntry.COLUMN_EMAIL, pharmacy.getEmail());
+
+        int result = sqLiteDatabase.update(ManageProductContract.PharmacyEntry.TABLE_NAME, values, where, whereArgs);
 
         DatabaseHelper.getInstance(ListProduct_Application.getContext()).closeDatabase();
     }
