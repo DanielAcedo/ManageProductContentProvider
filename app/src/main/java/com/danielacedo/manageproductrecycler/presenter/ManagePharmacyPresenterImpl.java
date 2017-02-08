@@ -1,11 +1,8 @@
 package com.danielacedo.manageproductrecycler.presenter;
 
-import android.content.Context;
-
 import com.danielacedo.manageproductrecycler.R;
-import com.danielacedo.manageproductrecycler.database.DatabaseManager;
+import com.danielacedo.manageproductrecycler.db.DatabaseManager;
 import com.danielacedo.manageproductrecycler.interfaces.ManagePharmacyPresenter;
-import com.danielacedo.manageproductrecycler.interfaces.PharmacyPresenter;
 import com.danielacedo.manageproductrecycler.model.Pharmacy;
 
 /**

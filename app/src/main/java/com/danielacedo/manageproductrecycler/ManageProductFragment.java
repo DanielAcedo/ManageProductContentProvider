@@ -16,7 +16,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
-import com.danielacedo.manageproductrecycler.database.ManageProductContract;
+import com.danielacedo.manageproductrecycler.db.DatabaseContract;
+import com.danielacedo.manageproductrecycler.provider.ManageProductContract;
 import com.danielacedo.manageproductrecycler.interfaces.CategoryPresenter;
 import com.danielacedo.manageproductrecycler.interfaces.IProduct;
 import com.danielacedo.manageproductrecycler.interfaces.ManageProductPresenter;
@@ -30,7 +31,6 @@ import com.danielacedo.manageproductrecycler.presenter.ManagePresenterImpl;
  */
 public class ManageProductFragment extends Fragment implements ManageProductPresenter.View, CategoryPresenter.View{
 
-    public static final String PRODUCT_RESULT_KEY = "productResult";
 
     CategoryPresenter presenterCategory;
 
@@ -135,7 +135,7 @@ public class ManageProductFragment extends Fragment implements ManageProductPres
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        String[] from = { ManageProductContract.CategoryEntry.COLUMN_NAME };
+        String[] from = { DatabaseContract.CategoryEntry.COLUMN_NAME };
         int[] to = {android.R.id.text1};
         adapterCategory = new SimpleCursorAdapter(getContext(), android.R.layout.simple_spinner_dropdown_item, null, from, to, 0);
         ((SimpleCursorAdapter)adapterCategory).setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

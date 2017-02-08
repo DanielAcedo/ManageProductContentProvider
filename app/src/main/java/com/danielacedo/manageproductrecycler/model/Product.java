@@ -78,6 +78,8 @@ public class Product implements Comparable<Product>, Parcelable{
         this.id_category = id_category;
     }
 
+    public Product(){}
+
     protected Product(Parcel in) {
         id = in.readInt();
         name = in.readString();

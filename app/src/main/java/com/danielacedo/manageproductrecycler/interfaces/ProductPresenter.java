@@ -1,6 +1,8 @@
 package com.danielacedo.manageproductrecycler.interfaces;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.database.Cursor;
 
 import com.danielacedo.manageproductrecycler.model.Product;
 
@@ -27,13 +29,15 @@ public interface ProductPresenter {
     void onDestroy();
 
     interface View{
-        void showProducts(List<Product> products);
+        void showProducts(Cursor productCursor);
 
         void showEmptyState(boolean show);
 
         void showMessage(int message);
 
         void showMessageDelete(Product product);
+
+        Context getContext();
 
         Product getProduct(int position);
 

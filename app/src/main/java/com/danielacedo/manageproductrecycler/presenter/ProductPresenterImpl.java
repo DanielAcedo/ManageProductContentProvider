@@ -1,15 +1,10 @@
 package com.danielacedo.manageproductrecycler.presenter;
 
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 
-import com.danielacedo.manageproductrecycler.ListProduct_Application;
-import com.danielacedo.manageproductrecycler.ProductRepository;
 import com.danielacedo.manageproductrecycler.R;
-import com.danielacedo.manageproductrecycler.database.DatabaseHelper;
-import com.danielacedo.manageproductrecycler.database.DatabaseManager;
+import com.danielacedo.manageproductrecycler.db.DatabaseManager;
 import com.danielacedo.manageproductrecycler.interfaces.ProductPresenter;
 import com.danielacedo.manageproductrecycler.model.Product;
 

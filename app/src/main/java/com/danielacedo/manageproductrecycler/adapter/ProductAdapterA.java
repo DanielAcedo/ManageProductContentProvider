@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.danielacedo.manageproductrecycler.R;
-import com.danielacedo.manageproductrecycler.database.DatabaseManager;
+import com.danielacedo.manageproductrecycler.db.DatabaseManager;
 import com.danielacedo.manageproductrecycler.model.Product;
 
 import java.util.ArrayList;

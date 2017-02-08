@@ -1,8 +1,7 @@
 package com.danielacedo.manageproductrecycler.presenter;
 
-import com.danielacedo.manageproductrecycler.ProductRepository;
 import com.danielacedo.manageproductrecycler.R;
-import com.danielacedo.manageproductrecycler.database.DatabaseManager;
+import com.danielacedo.manageproductrecycler.db.DatabaseManager;
 import com.danielacedo.manageproductrecycler.interfaces.ManageProductPresenter;
 import com.danielacedo.manageproductrecycler.model.Product;
 

@@ -20,16 +20,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.danielacedo.manageproductrecycler.adapter.PharmacyAdapter;
-import com.danielacedo.manageproductrecycler.database.ManageProductContract;
-import com.danielacedo.manageproductrecycler.interfaces.IProduct;
 import com.danielacedo.manageproductrecycler.interfaces.PharmacyPresenter;
-import com.danielacedo.manageproductrecycler.interfaces.ProductPresenter;
 import com.danielacedo.manageproductrecycler.model.Pharmacy;
-import com.danielacedo.manageproductrecycler.model.Product;
 import com.danielacedo.manageproductrecycler.presenter.PharmacyPresenterImpl;
-import com.danielacedo.manageproductrecycler.presenter.ProductPresenterImpl;
-
-import java.util.List;
 
 /**
  * Activity inherating from ListActivity that displays all the products in out Applicationś List

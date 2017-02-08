@@ -7,13 +7,13 @@ import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
-import com.danielacedo.manageproductrecycler.cursor.PharmacyCursorLoader;
-import com.danielacedo.manageproductrecycler.database.DatabaseManager;
+import com.danielacedo.manageproductrecycler.db.DatabaseContract;
+import com.danielacedo.manageproductrecycler.db.DatabaseManager;
 import com.danielacedo.manageproductrecycler.interfaces.PharmacyPresenter;
 import com.danielacedo.manageproductrecycler.model.Pharmacy;
+import com.danielacedo.manageproductrecycler.provider.ManageProductContract;
 
 /**
  * Created by usuario on 30/01/17.
@@ -52,7 +52,8 @@ public class PharmacyPresenterImpl implements PharmacyPresenter, LoaderManager.L
 
         switch (id){
             case PHARMACY:
-                loader = new PharmacyCursorLoader(context);
+                loader = new CursorLoader(context, ManageProductContract.PharmacyEntry.CONTENT_URI,
+                       ManageProductContract.PharmacyEntry.PROJECTION, null, null, DatabaseContract.PharmacyEntry.DEFAULT_SORT);
                 break;
         }
 
@@ -61,6 +62,7 @@ public class PharmacyPresenterImpl implements PharmacyPresenter, LoaderManager.L
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        data.setNotificationUri(context.getContentResolver(), ManageProductContract.PharmacyEntry.CONTENT_URI);
         view.showPharmacy(data);
 
         view.getProgressDialog().dismiss();

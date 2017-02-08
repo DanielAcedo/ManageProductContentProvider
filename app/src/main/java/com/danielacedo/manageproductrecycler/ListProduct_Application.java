@@ -3,14 +3,8 @@ package com.danielacedo.manageproductrecycler;
 import android.app.Application;
 import android.content.Context;
 
-import com.danielacedo.manageproductrecycler.database.DatabaseHelper;
-import com.danielacedo.manageproductrecycler.model.Product;
+import com.danielacedo.manageproductrecycler.db.DatabaseHelper;
 import com.danielacedo.manageproductrecycler.model.User;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Created by Daniel on 6/10/16.
@@ -25,10 +19,7 @@ public class ListProduct_Application extends Application {
     private User user;
     private static ListProduct_Application application;
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        DatabaseHelper.getInstance(this).open();
+    public ListProduct_Application(){
         application = this;
     }
 

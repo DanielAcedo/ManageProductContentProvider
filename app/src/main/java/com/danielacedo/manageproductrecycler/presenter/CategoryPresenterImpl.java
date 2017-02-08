@@ -2,18 +2,16 @@ package com.danielacedo.manageproductrecycler.presenter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.app.LoaderManager;
 import android.content.Loader;
-import android.widget.CursorAdapter;
-import android.widget.AdapterView;
 
-
-import com.danielacedo.manageproductrecycler.cursor.CategoryCursorLoader;
-import com.danielacedo.manageproductrecycler.database.DatabaseManager;
+import com.danielacedo.manageproductrecycler.db.DatabaseContract;
 import com.danielacedo.manageproductrecycler.interfaces.CategoryPresenter;
+import com.danielacedo.manageproductrecycler.provider.ManageProductContract;
+import com.danielacedo.manageproductrecycler.provider.ManageProductProvider;
 
 /**
  * Created by usuario on 26/01/17.
@@ -41,7 +39,9 @@ public class CategoryPresenterImpl implements CategoryPresenter, LoaderManager.L
 
         switch(id){
             case CATEGORY:
-                loader = new CategoryCursorLoader(context);
+                loader = new CursorLoader(context, ManageProductContract.CategoryEntry.CONTENT_URI,
+                        ManageProductContract.CategoryEntry.PROJECTION,
+                        null, null, DatabaseContract.CategoryEntry.DEFAULT_SORT);
                 break;
         }
 
@@ -50,6 +50,7 @@ public class CategoryPresenterImpl implements CategoryPresenter, LoaderManager.L
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        cursor.setNotificationUri(context.getContentResolver(), ManageProductContract.CategoryEntry.CONTENT_URI);
         view.setCursorCategory(cursor);
     }
 
