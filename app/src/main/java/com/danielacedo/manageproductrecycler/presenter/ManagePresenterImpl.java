@@ -52,7 +52,7 @@ public class ManagePresenterImpl implements ManageProductPresenter {
     @Override
     public void updateProduct(Product product) {
         context.getContentResolver().update(
-                ContentUris.withAppendedId(ManageProductContract.ProductEntry.CONTENT_URI, product.getId()),
+                ManageProductContract.ProductEntry.CONTENT_URI,
                 getContentProduct(product),
                 ManageProductContract.ProductEntry._ID+"="+product.getId(), null);
     }

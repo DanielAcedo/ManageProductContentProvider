@@ -167,9 +167,18 @@ public class ManageProductFragment extends Fragment implements ManageProductPres
     public void setCursorCategory(Cursor cursor) {
         adapterCategory.changeCursor(cursor);
 
-        //TODO SET SPINNER CATEGORY
-        if(editProduct != null){
+        boolean found = false;
 
+        if(editProduct != null){
+            cursor.moveToFirst();
+
+            do{
+                if(cursor.getInt(0) == editProduct.getId_category()){
+                    spCategory.setSelection(cursor.getPosition());
+                    found = true;
+                }
+                
+            }while(cursor.moveToNext() || !found);
         }
     }
 

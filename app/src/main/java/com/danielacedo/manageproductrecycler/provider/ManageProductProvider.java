@@ -182,7 +182,6 @@ public class ManageProductProvider extends ContentProvider {
             case PRODUCT:
                 result = sqLiteDatabase.update(DatabaseContract.ProductEntry.TABLE_NAME,
                         values, selection, selectionArgs);
-
                 break;
 
             case PHARMACY:
