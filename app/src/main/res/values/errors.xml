@@ -31,4 +31,7 @@
     <!-- Product -->
     <string name="err_product_remove_error">Error al borrar los productos</string>
 
+    <!-- DATABASE ERRORS -->
+    <string name="error_insert">Error al insertar el dato</string>
+
 </resources>

@@ -46,6 +46,8 @@ public class ManageProductFragment extends Fragment implements ManageProductPres
 
     private boolean editing;
 
+    Product editProduct;
+
     interface ManageProductListener {
         void showListProduct();
     }
@@ -124,6 +126,13 @@ public class ManageProductFragment extends Fragment implements ManageProductPres
 
             spCategory = (Spinner)rootview.findViewById(R.id.sp_Category);
 
+            //Spinner adapter
+            String[] from = { DatabaseContract.CategoryEntry.COLUMN_NAME };
+            int[] to = {android.R.id.text1};
+            adapterCategory = new SimpleCursorAdapter(getContext(), android.R.layout.simple_spinner_dropdown_item, null, from, to, 0);
+            ((SimpleCursorAdapter)adapterCategory).setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spCategory.setAdapter(adapterCategory);
+
             checkIntent();
         }
 
@@ -134,12 +143,6 @@ public class ManageProductFragment extends Fragment implements ManageProductPres
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        String[] from = { DatabaseContract.CategoryEntry.COLUMN_NAME };
-        int[] to = {android.R.id.text1};
-        adapterCategory = new SimpleCursorAdapter(getContext(), android.R.layout.simple_spinner_dropdown_item, null, from, to, 0);
-        ((SimpleCursorAdapter)adapterCategory).setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spCategory.setAdapter(adapterCategory);
     }
 
     @Override
@@ -163,6 +166,11 @@ public class ManageProductFragment extends Fragment implements ManageProductPres
     @Override
     public void setCursorCategory(Cursor cursor) {
         adapterCategory.changeCursor(cursor);
+
+        //TODO SET SPINNER CATEGORY
+        if(editProduct != null){
+
+        }
     }
 
     private void addResultProduct(){
@@ -222,6 +230,7 @@ public class ManageProductFragment extends Fragment implements ManageProductPres
 
                 btn_AddProduct.setText(R.string.btn_AddProduct_Edit);
 
+                editProduct = product;
                 editing = true;
             }
         }

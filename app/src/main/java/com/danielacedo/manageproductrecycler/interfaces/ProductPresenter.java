@@ -35,6 +35,8 @@ public interface ProductPresenter {
 
         void showMessage(int message);
 
+        void showMessage(String message);
+
         void showMessageDelete(Product product);
 
         Context getContext();

@@ -1,30 +1,60 @@
 package com.danielacedo.manageproductrecycler.presenter;
 
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.Context;
+
 import com.danielacedo.manageproductrecycler.R;
-import com.danielacedo.manageproductrecycler.db.DatabaseManager;
+import com.danielacedo.manageproductrecycler.db.DatabaseContract;
 import com.danielacedo.manageproductrecycler.interfaces.ManageProductPresenter;
 import com.danielacedo.manageproductrecycler.model.Product;
+import com.danielacedo.manageproductrecycler.provider.ManageProductContract;
 
 /**
  * Created by usuario on 12/12/16.
  */
 
 public class ManagePresenterImpl implements ManageProductPresenter {
+    //TODO REPLACE WITH CONTENTPROVIDER
 
     private ManageProductPresenter.View view;
+    private Context context;
 
     public ManagePresenterImpl(ManageProductPresenter.View view){
         this.view = view;
+        this.context = view.getContext();
     }
 
     @Override
     public void addProduct(Product product) {
-        DatabaseManager.getInstance().addProduct(product);
+        ContentValues values = getContentProduct(product);
+
+        context.getContentResolver().insert(ManageProductContract.ProductEntry.CONTENT_URI, values);
+    }
+
+    private ContentValues getContentProduct(Product product){
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(ManageProductContract.ProductEntry._ID, product.getId());
+        contentValues.put(ManageProductContract.ProductEntry.NAME, product.getName());
+        contentValues.put(ManageProductContract.ProductEntry.DESCRIPTION, product.getDescription());
+        contentValues.put(ManageProductContract.ProductEntry.BRAND, product.getBrand());
+        contentValues.put(ManageProductContract.ProductEntry.DOSAGE, product.getDosage());
+        contentValues.put(ManageProductContract.ProductEntry.PRICE, product.getPrice());
+        contentValues.put(ManageProductContract.ProductEntry.STOCK, product.getStock());
+        contentValues.put(ManageProductContract.ProductEntry.IMAGE, product.getImage());
+        contentValues.put(ManageProductContract.ProductEntry.sProductProjectionMap.get(ManageProductContract.ProductEntry.CATEGORY_ID),
+                product.getId_category());
+
+        return contentValues;
     }
 
     @Override
     public void updateProduct(Product product) {
-        DatabaseManager.getInstance().updateProduct(product);
+        context.getContentResolver().update(
+                ContentUris.withAppendedId(ManageProductContract.ProductEntry.CONTENT_URI, product.getId()),
+                getContentProduct(product),
+                ManageProductContract.ProductEntry._ID+"="+product.getId(), null);
     }
 
     @Override

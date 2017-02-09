@@ -10,7 +10,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 
 import com.danielacedo.manageproductrecycler.db.DatabaseContract;
-import com.danielacedo.manageproductrecycler.db.DatabaseManager;
 import com.danielacedo.manageproductrecycler.interfaces.PharmacyPresenter;
 import com.danielacedo.manageproductrecycler.model.Pharmacy;
 import com.danielacedo.manageproductrecycler.provider.ManageProductContract;
@@ -82,13 +81,13 @@ public class PharmacyPresenterImpl implements PharmacyPresenter, LoaderManager.L
 
     @Override
     public void deletePharmacy(Pharmacy pharmacy) {
-        DatabaseManager.getInstance().deletePharmacy(pharmacy);
+        //DatabaseManager.getInstance().deletePharmacy(pharmacy);
         loadPharmacy();
     }
 
     @Override
     public void addPharmacy(Pharmacy pharmacy) {
-        DatabaseManager.getInstance().addPharmacy(pharmacy);
+        //DatabaseManager.getInstance().addPharmacy(pharmacy);
         loadPharmacy();
     }
 }

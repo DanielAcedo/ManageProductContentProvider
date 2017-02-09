@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.text.TextUtils;
 
 import com.danielacedo.manageproductrecycler.HomeActivity;
-import com.danielacedo.manageproductrecycler.ListProductFragment;
 import com.danielacedo.manageproductrecycler.R;
 import com.danielacedo.manageproductrecycler.model.Error;
 import com.danielacedo.manageproductrecycler.preferences.AccountPreferenceImpl;

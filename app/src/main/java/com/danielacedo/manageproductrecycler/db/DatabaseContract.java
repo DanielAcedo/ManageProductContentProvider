@@ -12,9 +12,6 @@ import android.provider.BaseColumns;
  */
 public final class DatabaseContract {
 
-    public static final String AUTHORITY = "com.danielacedo.manageproductrecycler.provider";
-    public static final Uri AUTHORITY_URI = Uri.parse("content://"+AUTHORITY);
-
     private DatabaseContract(){}
 
     public static class CategoryEntry implements BaseColumns{
@@ -45,6 +42,8 @@ public final class DatabaseContract {
         public static final String COLUMN_IMAGE = "image";
         public static final String COLUMN_IDCATEGORY = "id_category";
         public static final String REFERENCE_ID_CATEGORY = String.format("REFERENCES %s (%s) ON UPDATE CASCADE ON DELETE RESTRICT", CategoryEntry.TABLE_NAME, BaseColumns._ID);
+
+        public static final String DEFAULT_SORT = COLUMN_NAME;
 
         public static final String PRODUCT_JOIN_CATEGORY = String.format("%s INNER JOIN %s ON %s= %s", TABLE_NAME, CategoryEntry.TABLE_NAME,
                 TABLE_NAME+"."+BaseColumns._ID,

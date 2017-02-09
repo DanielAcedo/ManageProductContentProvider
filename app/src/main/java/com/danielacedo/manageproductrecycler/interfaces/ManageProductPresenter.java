@@ -1,5 +1,7 @@
 package com.danielacedo.manageproductrecycler.interfaces;
 
+import android.content.Context;
+
 import com.danielacedo.manageproductrecycler.model.Product;
 
 /**
@@ -17,5 +19,6 @@ public interface ManageProductPresenter {
 
     interface View{
         void showMessage(int message);
+        Context getContext();
     }
 }

@@ -1,14 +1,17 @@
 package com.danielacedo.manageproductrecycler.provider;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
+import com.danielacedo.manageproductrecycler.R;
 import com.danielacedo.manageproductrecycler.db.DatabaseContract;
 import com.danielacedo.manageproductrecycler.db.DatabaseHelper;
 
@@ -82,6 +85,12 @@ public class ManageProductProvider extends ContentProvider {
                 break;
 
             case PRODUCT:
+                sqLiteQueryBuilder.setTables(DatabaseContract.ProductEntry.TABLE_NAME);
+                sqLiteQueryBuilder.setProjectionMap(ManageProductContract.ProductEntry.sProductProjectionMap);
+
+                if(sortOrder.isEmpty()){
+                    sortOrder = DatabaseContract.ProductEntry.DEFAULT_SORT;
+                }
 
                 break;
 
@@ -117,16 +126,78 @@ public class ManageProductProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        return null;
+        Uri newUri = null;
+        long id = -1;
+
+        switch (uriMatcher.match(uri)){
+            case CATEGORY:
+                id = sqLiteDatabase.insert(DatabaseContract.CategoryEntry.TABLE_NAME, null, values);
+                newUri = ContentUris.withAppendedId(uri, id);
+
+                break;
+
+            case PRODUCT:
+                id = sqLiteDatabase.insert(DatabaseContract.ProductEntry.TABLE_NAME, null, values);
+                newUri = ContentUris.withAppendedId(uri, id);
+
+                break;
+        }
+
+        if(id != -1){
+            //Notify observers uri has been modified
+            getContext().getContentResolver().notifyChange(newUri, null);
+        }else{
+            throw new SQLException(getContext().getResources().getString(R.string.error_insert));
+        }
+
+        return newUri;
     }
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        return 0;
+        int result = 0;
+
+        switch (uriMatcher.match(uri)){
+            case PRODUCT:
+                result = sqLiteDatabase.delete(DatabaseContract.ProductEntry.TABLE_NAME,
+                        selection, selectionArgs);
+
+                break;
+
+            case PHARMACY:
+                result = sqLiteDatabase.delete(DatabaseContract.PharmacyEntry.TABLE_NAME,
+                        selection, selectionArgs);
+
+                break;
+        }
+
+        return result;
     }
 
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        return 0;
+        int result = 0;
+
+        switch (uriMatcher.match(uri)){
+            case PRODUCT:
+                result = sqLiteDatabase.update(DatabaseContract.ProductEntry.TABLE_NAME,
+                        values, selection, selectionArgs);
+
+                break;
+
+            case PHARMACY:
+                result = sqLiteDatabase.update(DatabaseContract.PharmacyEntry.TABLE_NAME,
+                        values, selection, selectionArgs);
+
+                break;
+        }
+
+        if(result != 0){
+            getContext().getContentResolver().notifyChange(
+                    ContentUris.withAppendedId(uri, values.getAsInteger(ManageProductContract.ProductEntry._ID)),
+                    null);
+        }
+
+        return result;
     }
 }

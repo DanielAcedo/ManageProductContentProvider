@@ -2,6 +2,7 @@ package com.danielacedo.manageproductrecycler;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -72,7 +73,7 @@ public class MultiListProductFragment extends Fragment implements ProductPresent
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        adapter = new ProductAdapter(getContext());
+        adapter = new ProductAdapter(getContext(), null, 0);
         presenter = new ProductPresenterImpl(this);
 
         hiddenViews = new ArrayList<>();
@@ -157,9 +158,14 @@ public class MultiListProductFragment extends Fragment implements ProductPresent
         return adapter.getItem(position);
     }
 
+    @Override
+    public void showProducts(Cursor productCursor) {
+        adapter.changeCursor(productCursor);
+    }
+
     /*
-                        Inflates menu in the fragment
-            */
+                            Inflates menu in the fragment
+                */
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -178,7 +184,8 @@ public class MultiListProductFragment extends Fragment implements ProductPresent
                 mCallback.showManageProduct(null);
                 break;
             case R.id.action_sort_alphabetically:
-                adapter.getAlphabeticallySortedProducts();
+                //TODO SORT
+                //adapter.getAlphabeticallySortedProducts();
                 break;
         }
 
@@ -194,9 +201,6 @@ public class MultiListProductFragment extends Fragment implements ProductPresent
         return dialog;
     }
 
-    public void showProducts(List<Product> products){
-        adapter.updateProduct(products);
-    }
 
     private void hideList(boolean hide){
         lv_ListProduct.setVisibility(hide ? View.GONE : View.VISIBLE);
@@ -214,6 +218,11 @@ public class MultiListProductFragment extends Fragment implements ProductPresent
             Snackbar.make(root, getResources().getString(message), Snackbar.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void showMessage(String message) {
+        if(root != null)
+            Snackbar.make(root, message, Snackbar.LENGTH_SHORT).show();
+    }
 
     @Override
     public void showMessageDelete(final Product product){

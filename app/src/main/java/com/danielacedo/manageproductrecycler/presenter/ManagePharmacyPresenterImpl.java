@@ -1,7 +1,6 @@
 package com.danielacedo.manageproductrecycler.presenter;
 
 import com.danielacedo.manageproductrecycler.R;
-import com.danielacedo.manageproductrecycler.db.DatabaseManager;
 import com.danielacedo.manageproductrecycler.interfaces.ManagePharmacyPresenter;
 import com.danielacedo.manageproductrecycler.model.Pharmacy;
 
@@ -42,11 +41,12 @@ public class ManagePharmacyPresenterImpl implements ManagePharmacyPresenter {
 
     @Override
     public void addPharmacy(Pharmacy pharmacy) {
-        DatabaseManager.getInstance().addPharmacy(pharmacy);
+        //TODO ADDPHARMACY CONTENT PROVIDER
+        //DatabaseManager.getInstance().addPharmacy(pharmacy);
     }
 
     @Override
     public void updatePharmacy(Pharmacy pharmacy) {
-        DatabaseManager.getInstance().updatePharmacy(pharmacy);
+        //DatabaseManager.getInstance().updatePharmacy(pharmacy);
     }
 }

@@ -1,12 +1,21 @@
 package com.danielacedo.manageproductrecycler.presenter;
 
+import android.app.Activity;
+import android.app.LoaderManager;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.CursorLoader;
+import android.content.Loader;
+import android.database.Cursor;
 import android.os.AsyncTask;
+import android.os.Bundle;
 
 import com.danielacedo.manageproductrecycler.R;
-import com.danielacedo.manageproductrecycler.db.DatabaseManager;
+import com.danielacedo.manageproductrecycler.db.DatabaseContract;
 import com.danielacedo.manageproductrecycler.interfaces.ProductPresenter;
 import com.danielacedo.manageproductrecycler.model.Product;
+import com.danielacedo.manageproductrecycler.provider.ManageProductContract;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,25 +24,41 @@ import java.util.List;
  * Created by usuario on 9/12/16.
  */
 
-public class ProductPresenterImpl implements ProductPresenter {
+public class ProductPresenterImpl implements ProductPresenter, LoaderManager.LoaderCallbacks<Cursor> {
     private ProductPresenter.View view;
 
+    private final static int PRODUCT = 3;
+
     private List<Integer> selectedItemsPosition;
+    private Context context;
 
     public ProductPresenterImpl(ProductPresenter.View view){
         this.view = view;
+        this.context = view.getContext();
 
         selectedItemsPosition = new ArrayList<>();
     }
 
     @Override
     public void addProduct(Product product) {
-        DatabaseManager.getInstance().addProduct(product);
-        loadProducts();
+        ContentValues values = getContentProduct(product);
+
+        context.getContentResolver().insert(ManageProductContract.ProductEntry.CONTENT_URI, values);
     }
 
-    public List<Product> getAllProducts(){
-        return DatabaseManager.getInstance().getAllProducts();
+    private ContentValues getContentProduct(Product product){
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(ManageProductContract.ProductEntry.NAME, product.getName());
+        contentValues.put(ManageProductContract.ProductEntry.DESCRIPTION, product.getDescription());
+        contentValues.put(ManageProductContract.ProductEntry.BRAND, product.getBrand());
+        contentValues.put(ManageProductContract.ProductEntry.DOSAGE, product.getDosage());
+        contentValues.put(ManageProductContract.ProductEntry.PRICE, product.getPrice());
+        contentValues.put(ManageProductContract.ProductEntry.STOCK, product.getStock());
+        contentValues.put(ManageProductContract.ProductEntry.IMAGE, product.getImage());
+        contentValues.put(ManageProductContract.ProductEntry.CATEGORY_ID, product.getId_category());
+
+        return contentValues;
     }
 
     /*@Override
@@ -48,39 +73,40 @@ public class ProductPresenterImpl implements ProductPresenter {
     }*/
 
     public void loadProducts(){
-        new AsyncTask<Void, Integer, List<Product>>(){
-            ProgressDialog progressDialog = view.getProgressDialog();
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                view.showMessage(R.string.message_loading_products);
-                progressDialog.show();
-            }
+        Loader loader = ((Activity)context).getLoaderManager().getLoader(PRODUCT);
 
-            @Override
-            protected List<Product> doInBackground(Void... params) {
-                return DatabaseManager.getInstance().getAllProducts();
-            }
+        ProgressDialog dialog = view.getProgressDialog();
+        dialog.setTitle("Cargando productos...");
+        dialog.show();
 
-            @Override
-            protected void onPostExecute(List<Product> productList) {
-                if(productList.isEmpty()){
-                    view.showEmptyState(true);
-                }else{
-                    view.showProducts(productList);
-                }
+        if(loader == null){
+            ((Activity)context).getLoaderManager().initLoader(PRODUCT, null, this);
+        }else{
+            ((Activity)context).getLoaderManager().restartLoader(PRODUCT, null, this);
+        }
+    }
 
-                progressDialog.dismiss();
-            }
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Loader<Cursor> loader = null;
 
-            @Override
-            protected void onCancelled() {
-                super.onCancelled();
+        switch (id){
+            case PRODUCT:
+                loader = new CursorLoader(context, ManageProductContract.ProductEntry.CONTENT_URI,
+                        ManageProductContract.ProductEntry.PROJECTION, null, null, DatabaseContract.ProductEntry.DEFAULT_SORT);
+                break;
+        }
 
-                view.showMessage(R.string.message_loading_cancelled);
-                progressDialog.dismiss();
-            }
-        }.execute();
+        return loader;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        data.setNotificationUri(context.getContentResolver(), ManageProductContract.ProductEntry.CONTENT_URI);
+
+        view.showProducts(data);
+
+        view.getProgressDialog().dismiss();
     }
 
     /* Example method for removing the object once the snackbar was dimissed
@@ -91,9 +117,15 @@ public class ProductPresenterImpl implements ProductPresenter {
 
     @Override
     public void deleteProduct(Product product) {
-        DatabaseManager.getInstance().deleteProduct(product);
-        loadProducts();
-        view.showMessageDelete(product);
+        int result = context.getContentResolver().delete(ManageProductContract.ProductEntry.CONTENT_URI,
+                ManageProductContract.ProductEntry._ID+"="+product.getId(), null);
+
+
+        if(result != 0){
+            loadProducts();
+        }else{
+            view.showMessage("No se ha eliminado");
+        }
     }
 
     @Override
@@ -108,17 +140,15 @@ public class ProductPresenterImpl implements ProductPresenter {
 
     @Override
     public void deleteSelected() {
-        List<Product> products = new ArrayList<>();
 
         for (int position: selectedItemsPosition) {
-            products.add(view.getProduct(position));
+            deleteProduct(view.getProduct(position));
         }
+    }
 
-        if(DatabaseManager.getInstance().deleteProducts(products)){
-            loadProducts();
-        }else{
-            view.showMessage(R.string.err_product_remove_error);
-        }
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        view.showProducts(null);
     }
 
     @Override
