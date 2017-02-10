@@ -3,6 +3,7 @@ package com.danielacedo.manageproductrecycler.presenter;
 import android.app.Activity;
 import android.app.LoaderManager;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Loader;
@@ -67,7 +68,17 @@ public class PharmacyPresenterImpl implements PharmacyPresenter, LoaderManager.L
         view.getProgressDialog().dismiss();
     }
 
+    private ContentValues getContentPharmacy(Pharmacy pharmacy){
+        ContentValues contentValues = new ContentValues();
 
+        contentValues.put(ManageProductContract.PharmacyEntry._ID, pharmacy.getId());
+        contentValues.put(ManageProductContract.PharmacyEntry.CIF, pharmacy.getCif());
+        contentValues.put(ManageProductContract.PharmacyEntry.ADDRESS, pharmacy.getAddress());
+        contentValues.put(ManageProductContract.PharmacyEntry.EMAIL, pharmacy.getEmail());
+        contentValues.put(ManageProductContract.PharmacyEntry.TELEPHONENUMBER, pharmacy.getTelephone_number());
+
+        return contentValues;
+    }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
@@ -81,13 +92,18 @@ public class PharmacyPresenterImpl implements PharmacyPresenter, LoaderManager.L
 
     @Override
     public void deletePharmacy(Pharmacy pharmacy) {
-        //DatabaseManager.getInstance().deletePharmacy(pharmacy);
-        loadPharmacy();
+        int result = context.getContentResolver().delete(ManageProductContract.PharmacyEntry.CONTENT_URI,
+                ManageProductContract.PharmacyEntry._ID+"="+pharmacy.getId(), null);
+
+        if(result != 0){
+            loadPharmacy();
+        }
     }
 
     @Override
     public void addPharmacy(Pharmacy pharmacy) {
-        //DatabaseManager.getInstance().addPharmacy(pharmacy);
-        loadPharmacy();
+        context.getContentResolver().insert(ManageProductContract.PharmacyEntry.CONTENT_URI, getContentPharmacy(pharmacy));
     }
+
+
 }

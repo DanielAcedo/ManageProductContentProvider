@@ -2,11 +2,13 @@ package com.danielacedo.manageproductrecycler;
 
 import android.app.Activity;
 import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +37,8 @@ public class ManageProductFragment extends Fragment implements ManageProductPres
     CategoryPresenter presenterCategory;
 
     private ManageProductPresenter presenter;
-    private EditText edt_Name, edt_Description, edt_Price, edt_Brand, edt_Dosage, edt_Stock, edt_Image;
+    private EditText edt_Name, edt_Description, edt_Price, edt_Brand, edt_Dosage, edt_Stock;
+    private ImageView edt_Image;
 
     private Spinner spCategory;
     private CursorAdapter adapterCategory;
@@ -104,7 +107,7 @@ public class ManageProductFragment extends Fragment implements ManageProductPres
             edt_Brand = (EditText) rootview.findViewById(R.id.edt_Brand);
             edt_Dosage = (EditText) rootview.findViewById(R.id.edt_Dosage);
             edt_Stock = (EditText) rootview.findViewById(R.id.edt_Stock);
-            edt_Image = (EditText) rootview.findViewById(R.id.edt_Image);
+            edt_Image = (ImageView) rootview.findViewById(R.id.edt_Image);
             root = (LinearLayout)rootview.findViewById(R.id.add_product);
 
             btn_AddProduct = (Button)rootview.findViewById(R.id.btn_AddProduct);
@@ -113,8 +116,7 @@ public class ManageProductFragment extends Fragment implements ManageProductPres
                 public void onClick(View v) {
                     if (presenter.validateProductFields(edt_Name.getText().toString(), edt_Description.getText().toString(),
                             edt_Brand.getText().toString(), edt_Dosage.getText().toString(),
-                            edt_Price.getText().toString(), edt_Stock.getText().toString(),
-                            edt_Image.getText().toString())){
+                            edt_Price.getText().toString(), edt_Stock.getText().toString())){
 
                         addResultProduct();
                         mCallback.showListProduct();
@@ -173,11 +175,12 @@ public class ManageProductFragment extends Fragment implements ManageProductPres
             cursor.moveToFirst();
 
             do{
-                if(cursor.getInt(0) == editProduct.getId_category()){
+                if(cursor.getInt(cursor.getColumnIndex(ManageProductContract.CategoryEntry._ID))
+                        == editProduct.getId_category()) {
                     spCategory.setSelection(cursor.getPosition());
                     found = true;
                 }
-                
+
             }while(cursor.moveToNext() || !found);
         }
     }
@@ -203,7 +206,7 @@ public class ManageProductFragment extends Fragment implements ManageProductPres
             product = new Product(edt_Name.getText().toString(), edt_Description.getText().toString(),
                     Double.parseDouble(edt_Price.getText().toString()),
                     edt_Brand.getText().toString(), edt_Dosage.getText().toString(), Integer.parseInt(edt_Stock.getText().toString()),
-                    R.drawable.weed, idCategory);
+                    BitmapFactory.decodeResource(getResources(), R.drawable.weed), idCategory);
 
             presenter.addProduct(product);
         }
@@ -235,7 +238,7 @@ public class ManageProductFragment extends Fragment implements ManageProductPres
                 edt_Brand.setText(product.getBrand());
                 edt_Stock.setText(String.valueOf(product.getStock()));
                 edt_Dosage.setText(product.getDosage());
-                edt_Image.setText(String.valueOf(product.getImage()));
+                edt_Image.setImageBitmap(product.getImage());
 
                 btn_AddProduct.setText(R.string.btn_AddProduct_Edit);
 

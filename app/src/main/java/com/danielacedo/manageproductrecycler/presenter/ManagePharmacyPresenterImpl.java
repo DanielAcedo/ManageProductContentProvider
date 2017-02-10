@@ -1,8 +1,12 @@
 package com.danielacedo.manageproductrecycler.presenter;
 
+import android.content.ContentValues;
+import android.content.Context;
+
 import com.danielacedo.manageproductrecycler.R;
 import com.danielacedo.manageproductrecycler.interfaces.ManagePharmacyPresenter;
 import com.danielacedo.manageproductrecycler.model.Pharmacy;
+import com.danielacedo.manageproductrecycler.provider.ManageProductContract;
 
 /**
  * Created by Daniel on 01/02/2017.
@@ -10,9 +14,12 @@ import com.danielacedo.manageproductrecycler.model.Pharmacy;
 
 public class ManagePharmacyPresenterImpl implements ManagePharmacyPresenter {
     private ManagePharmacyPresenter.View view;
+    private Context context;
 
-    public ManagePharmacyPresenterImpl(ManagePharmacyPresenter.View view){
+    public ManagePharmacyPresenterImpl(ManagePharmacyPresenter.View view)
+    {
         this.view = view;
+        this.context = view.getContext();
     }
 
     @Override
@@ -39,14 +46,28 @@ public class ManagePharmacyPresenterImpl implements ManagePharmacyPresenter {
         return result;
     }
 
+    private ContentValues getContentPharmacy(Pharmacy pharmacy){
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(ManageProductContract.PharmacyEntry._ID, pharmacy.getId());
+        contentValues.put(ManageProductContract.PharmacyEntry.CIF, pharmacy.getCif());
+        contentValues.put(ManageProductContract.PharmacyEntry.ADDRESS, pharmacy.getAddress());
+        contentValues.put(ManageProductContract.PharmacyEntry.EMAIL, pharmacy.getEmail());
+        contentValues.put(ManageProductContract.PharmacyEntry.TELEPHONENUMBER, pharmacy.getTelephone_number());
+
+        return contentValues;
+    }
+
     @Override
     public void addPharmacy(Pharmacy pharmacy) {
-        //TODO ADDPHARMACY CONTENT PROVIDER
-        //DatabaseManager.getInstance().addPharmacy(pharmacy);
+        context.getContentResolver().insert(ManageProductContract.PharmacyEntry.CONTENT_URI, getContentPharmacy(pharmacy));
     }
 
     @Override
     public void updatePharmacy(Pharmacy pharmacy) {
-        //DatabaseManager.getInstance().updatePharmacy(pharmacy);
+        context.getContentResolver().update(ManageProductContract.PharmacyEntry.CONTENT_URI,
+                getContentPharmacy(pharmacy),
+                ManageProductContract.PharmacyEntry._ID+"="+pharmacy.getId(),
+                null);
     }
 }

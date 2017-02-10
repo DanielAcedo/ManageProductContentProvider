@@ -8,10 +8,9 @@ import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
-import com.danielacedo.manageproductrecycler.R;
+import com.danielacedo.manageproductrecycler.utils.ImageResource;
 import com.danielacedo.manageproductrecycler.db.DatabaseContract;
 import com.danielacedo.manageproductrecycler.interfaces.ProductPresenter;
 import com.danielacedo.manageproductrecycler.model.Product;
@@ -55,7 +54,7 @@ public class ProductPresenterImpl implements ProductPresenter, LoaderManager.Loa
         contentValues.put(ManageProductContract.ProductEntry.DOSAGE, product.getDosage());
         contentValues.put(ManageProductContract.ProductEntry.PRICE, product.getPrice());
         contentValues.put(ManageProductContract.ProductEntry.STOCK, product.getStock());
-        contentValues.put(ManageProductContract.ProductEntry.IMAGE, product.getImage());
+        contentValues.put(ManageProductContract.ProductEntry.IMAGE, ImageResource.getByte(product.getImage()));
         contentValues.put(ManageProductContract.ProductEntry.CATEGORY_ID, product.getId_category());
 
         return contentValues;

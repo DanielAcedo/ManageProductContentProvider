@@ -15,7 +15,7 @@ public interface ManageProductPresenter {
 
     void onDestroy();
 
-    boolean validateProductFields(String name, String description, String brand, String dosage, String price, String stock, String image);
+    boolean validateProductFields(String name, String description, String brand, String dosage, String price, String stock);
 
     interface View{
         void showMessage(int message);

@@ -1,5 +1,7 @@
 package com.danielacedo.manageproductrecycler.interfaces;
 
+import android.content.Context;
+
 import com.danielacedo.manageproductrecycler.model.Pharmacy;
 
 /**
@@ -22,5 +24,6 @@ public interface ManagePharmacyPresenter {
     interface View{
         void showMessage(int msgId);
         void showMessage(String message);
+        Context getContext();
     }
 }

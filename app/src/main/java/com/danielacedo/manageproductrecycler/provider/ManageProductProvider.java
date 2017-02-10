@@ -120,7 +120,36 @@ public class ManageProductProvider extends ContentProvider {
     @Nullable
     @Override
     public String getType(Uri uri) {
-        return null;
+        String type = null;
+        int match = uriMatcher.match(uri);
+
+        switch (match){
+            case CATEGORY:
+                type = "vnd.android.cursor.dir/vnd.danielacedo.manageproductrecycler.category";
+                break;
+
+            case CATEGORY_ID:
+                type = "vnd.android.cursor.dir/vnd.danielacedo.manageproductrecycler.category";
+                break;
+
+            case PRODUCT:
+                type = "vnd.android.cursor.dir/vnd.danielacedo.manageproductrecycler.product";
+                break;
+
+            case PRODUCT_ID:
+                type = "vnd.android.cursor.dir/vnd.danielacedo.manageproductrecycler.product";
+                break;
+
+            case PHARMACY:
+                type = "vnd.android.cursor.dir/vnd.danielacedo.manageproductrecycler.pharmacy";
+                break;
+
+            case PHARMACY_ID:
+                type = "vnd.android.cursor.dir/vnd.manageproductrecycler.pharmacy";
+                break;
+        }
+
+        return type;
     }
 
     @Nullable
@@ -138,6 +167,12 @@ public class ManageProductProvider extends ContentProvider {
 
             case PRODUCT:
                 id = sqLiteDatabase.insert(DatabaseContract.ProductEntry.TABLE_NAME, null, values);
+                newUri = ContentUris.withAppendedId(uri, id);
+
+                break;
+
+            case PHARMACY:
+                id = sqLiteDatabase.insert(DatabaseContract.PharmacyEntry.TABLE_NAME, null, values);
                 newUri = ContentUris.withAppendedId(uri, id);
 
                 break;
@@ -177,11 +212,22 @@ public class ManageProductProvider extends ContentProvider {
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         int result = 0;
+        String id;
 
         switch (uriMatcher.match(uri)){
             case PRODUCT:
                 result = sqLiteDatabase.update(DatabaseContract.ProductEntry.TABLE_NAME,
                         values, selection, selectionArgs);
+                break;
+
+            case PRODUCT_ID:
+                id = uri.getLastPathSegment();
+                selection = ManageProductContract.ProductEntry._ID +" = ?";
+                selectionArgs = new String[]{id};
+
+                result = sqLiteDatabase.update(DatabaseContract.ProductEntry.TABLE_NAME,
+                        values, selection, selectionArgs);
+
                 break;
 
             case PHARMACY:

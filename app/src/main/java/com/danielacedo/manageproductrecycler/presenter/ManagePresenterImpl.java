@@ -1,11 +1,11 @@
 package com.danielacedo.manageproductrecycler.presenter;
 
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.net.Uri;
 
+import com.danielacedo.manageproductrecycler.utils.ImageResource;
 import com.danielacedo.manageproductrecycler.R;
-import com.danielacedo.manageproductrecycler.db.DatabaseContract;
 import com.danielacedo.manageproductrecycler.interfaces.ManageProductPresenter;
 import com.danielacedo.manageproductrecycler.model.Product;
 import com.danielacedo.manageproductrecycler.provider.ManageProductContract;
@@ -15,7 +15,6 @@ import com.danielacedo.manageproductrecycler.provider.ManageProductContract;
  */
 
 public class ManagePresenterImpl implements ManageProductPresenter {
-    //TODO REPLACE WITH CONTENTPROVIDER
 
     private ManageProductPresenter.View view;
     private Context context;
@@ -42,7 +41,7 @@ public class ManagePresenterImpl implements ManageProductPresenter {
         contentValues.put(ManageProductContract.ProductEntry.DOSAGE, product.getDosage());
         contentValues.put(ManageProductContract.ProductEntry.PRICE, product.getPrice());
         contentValues.put(ManageProductContract.ProductEntry.STOCK, product.getStock());
-        contentValues.put(ManageProductContract.ProductEntry.IMAGE, product.getImage());
+        contentValues.put(ManageProductContract.ProductEntry.IMAGE, ImageResource.getByte(product.getImage()));
         contentValues.put(ManageProductContract.ProductEntry.sProductProjectionMap.get(ManageProductContract.ProductEntry.CATEGORY_ID),
                 product.getId_category());
 
@@ -51,10 +50,11 @@ public class ManagePresenterImpl implements ManageProductPresenter {
 
     @Override
     public void updateProduct(Product product) {
+
         context.getContentResolver().update(
-                ManageProductContract.ProductEntry.CONTENT_URI,
+                Uri.withAppendedPath(ManageProductContract.ProductEntry.CONTENT_URI, String.valueOf(product.getId())),
                 getContentProduct(product),
-                ManageProductContract.ProductEntry._ID+"="+product.getId(), null);
+                null, null);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class ManagePresenterImpl implements ManageProductPresenter {
     }
 
     @Override
-    public boolean validateProductFields(String name, String description, String brand, String dosage, String price, String stock, String image) {
+    public boolean validateProductFields(String name, String description, String brand, String dosage, String price, String stock) {
 
         boolean ok = true;
         int message = 0;
@@ -90,10 +90,6 @@ public class ManagePresenterImpl implements ManageProductPresenter {
         }
         else if(stock.isEmpty()){
             message = R.string.err_productStock_empty;
-            ok = false;
-        }
-        else if(image.isEmpty()){
-            message = R.string.err_productImage_empty;
             ok = false;
         }
 

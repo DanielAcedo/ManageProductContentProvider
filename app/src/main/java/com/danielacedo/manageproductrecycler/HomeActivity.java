@@ -30,6 +30,8 @@ public class HomeActivity extends AppCompatActivity implements ManageProductFrag
     private static final int LONG_DELAY = 3500;
     private static final int SHORT_DELAY = 2000;
 
+    private static final int MENU_GROUP_EMAIL = 20;
+
     private Toolbar toolbar;
     private MultiListProductFragment listProductFragment;
     private ManageProductFragment manageProductFragment;
@@ -69,8 +71,8 @@ public class HomeActivity extends AppCompatActivity implements ManageProductFrag
                 if(!selectingEmail){
                     navigationView.getMenu().clear();
                     Menu menu = navigationView.getMenu();
-                    menu.add(20, 0, 0, "dani_acedo@hotmail.com");
-                    menu.add(20, 0, 1, "danielexmachina0451@gmail.com");
+                    menu.add(MENU_GROUP_EMAIL, 0, 0, "dani_acedo@hotmail.com");
+                    menu.add(MENU_GROUP_EMAIL, 0, 1, "danielexmachina0451@gmail.com");
 
 
                     selectingEmail = true;
@@ -112,7 +114,8 @@ public class HomeActivity extends AppCompatActivity implements ManageProductFrag
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-                if(item.getGroupId() == 20){
+                //Update current email in NavigationDrawer
+                if(item.getGroupId() == MENU_GROUP_EMAIL){
                     ((TextView)navigationView.getHeaderView(0).findViewById(R.id.txv_ProfileEmail)).setText(item.getTitle());
                     return false;
                 }

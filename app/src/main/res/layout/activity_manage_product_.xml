@@ -60,9 +60,9 @@
         android:id="@+id/edt_Stock"
         android:hint="@string/edt_Stock" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:inputType="number"
         android:ems="10"
         android:id="@+id/edt_Image"

@@ -1,5 +1,6 @@
 package com.danielacedo.manageproductrecycler.model;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -23,7 +24,7 @@ public class Product implements Comparable<Product>, Parcelable{
     private int id_category;
     private double price;
     private int stock;
-    private long image;
+    private Bitmap image;
 
 
     public static final Comparator<Product> PRICE_COMPARATOR = new Comparator<Product>() {
@@ -55,7 +56,7 @@ public class Product implements Comparable<Product>, Parcelable{
         }
     };
 
-    public Product(String name, String description, double price, String brand, String dosage, int stock, int image, int id_category) {
+    public Product(String name, String description, double price, String brand, String dosage, int stock, Bitmap image, int id_category) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -66,7 +67,7 @@ public class Product implements Comparable<Product>, Parcelable{
         this.id_category = id_category;
     }
 
-    public Product(int id, String name, String description, double price, String brand, String dosage, int stock, int image, int id_category) {
+    public Product(int id, String name, String description, double price, String brand, String dosage, int stock, Bitmap image, int id_category) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -86,10 +87,28 @@ public class Product implements Comparable<Product>, Parcelable{
         description = in.readString();
         brand = in.readString();
         dosage = in.readString();
+        id_category = in.readInt();
         price = in.readDouble();
         stock = in.readInt();
-        image = in.readInt();
-        id_category = in.readInt();
+        image = in.readParcelable(Bitmap.class.getClassLoader());
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(description);
+        dest.writeString(brand);
+        dest.writeString(dosage);
+        dest.writeInt(id_category);
+        dest.writeDouble(price);
+        dest.writeInt(stock);
+        dest.writeParcelable(image, flags);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Product> CREATOR = new Creator<Product>() {
@@ -160,11 +179,11 @@ public class Product implements Comparable<Product>, Parcelable{
         this.stock = stock;
     }
 
-    public long getImage() {
+    public Bitmap getImage() {
         return image;
     }
 
-    public void setImage(long image) {
+    public void setImage(Bitmap image) {
         this.image = image;
     }
 
@@ -203,21 +222,4 @@ public class Product implements Comparable<Product>, Parcelable{
         }
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeString(name);
-        dest.writeString(description);
-        dest.writeString(brand);
-        dest.writeString(dosage);
-        dest.writeDouble(price);
-        dest.writeInt(stock);
-        dest.writeLong(image);
-        dest.writeInt(id_category);
-    }
 }
