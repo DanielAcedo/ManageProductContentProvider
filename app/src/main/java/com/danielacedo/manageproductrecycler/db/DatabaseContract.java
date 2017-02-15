@@ -7,6 +7,9 @@ package com.danielacedo.manageproductrecycler.db;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+import static android.graphics.BlurMaskFilter.Blur.INNER;
+import static android.webkit.WebSettings.PluginState.ON;
+
 /**
  * Class that stores database's schema containing all table fields
  */
@@ -134,6 +137,19 @@ public final class DatabaseContract {
         public static final String REFERENCE_ID_PHARMACY = String.format("REFERENCES %s (%s) ON UPDATE CASCADE ON DELETE RESTRICT", PharmacyEntry.TABLE_NAME, BaseColumns._ID);
         public static final String REFERENCE_ID_STATUS = String.format("REFERENCES %s (%s) ON UPDATE CASCADE ON DELETE RESTRICT", InvoiceStatusEntry.TABLE_NAME, BaseColumns._ID);
 
+        public static final String INVOICE_JOIN_PHARMACY = String.format("INNER JOIN %s ON %s = %s",
+                PharmacyEntry.TABLE_NAME,
+                PharmacyEntry.TABLE_NAME+"."+PharmacyEntry._ID,
+                TABLE_NAME+"."+_ID
+                );
+
+        public static final String INVOICE_JOIN_STATUS = String.format("INNER JOIN %s ON %s = %s",
+                InvoiceStatusEntry.TABLE_NAME,
+                InvoiceStatusEntry.TABLE_NAME+"."+InvoiceStatusEntry._ID,
+                TABLE_NAME+"."+_ID
+        );
+
+        public static final String INNER_JOINS = TABLE_NAME+" "+INVOICE_JOIN_PHARMACY+" "+INVOICE_JOIN_STATUS;
 
         public static final String SQL_CREATE_ENTRIES = String.format(
                 "CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT,"+
@@ -144,6 +160,13 @@ public final class DatabaseContract {
                 COLUMN_IDPHARMACY, REFERENCE_ID_PHARMACY,
                 COLUMN_IDSTATUS, REFERENCE_ID_STATUS,
                 COLUMN_DATE);
+
+        public static final String[] PROJECTION = {
+                PharmacyEntry.TABLE_NAME+"."+PharmacyEntry.COLUMN_CIF,
+                InvoiceStatusEntry.TABLE_NAME+"."+InvoiceStatusEntry.COLUMN_NAME,
+                COLUMN_DATE
+        };
+
 
         public static final String SQL_DELETE_ENTRIES = String.format("DROP TABLE IF EXISTS %s", TABLE_NAME);
     }

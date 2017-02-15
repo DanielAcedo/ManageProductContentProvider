@@ -107,6 +107,15 @@ public class ManageProductProvider extends ContentProvider {
 
                 break;
 
+            case INVOICE:
+                sqLiteQueryBuilder.setTables(DatabaseContract.InvoiceEntry.INNER_JOINS);
+
+                if(sortOrder.isEmpty()){
+                    sortOrder = DatabaseContract.CategoryEntry.DEFAULT_SORT;
+                }
+
+                break;
+
             case UriMatcher.NO_MATCH:
                 throw new IllegalArgumentException("Invalid URI");
 
@@ -146,6 +155,10 @@ public class ManageProductProvider extends ContentProvider {
 
             case PHARMACY_ID:
                 type = "vnd.android.cursor.dir/vnd.manageproductrecycler.pharmacy";
+                break;
+
+            case INVOICE:
+                type = "vnd.android.cursor.dir/vnd.manageproductrecycler.invoice";
                 break;
         }
 
