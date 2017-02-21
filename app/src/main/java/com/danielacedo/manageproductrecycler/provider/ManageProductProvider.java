@@ -217,6 +217,12 @@ public class ManageProductProvider extends ContentProvider {
                         selection, selectionArgs);
 
                 break;
+
+            case INVOICE:
+                result = sqLiteDatabase.delete(DatabaseContract.InvoiceEntry.TABLE_NAME,
+                        selection, selectionArgs);
+
+                break;
         }
 
         return result;

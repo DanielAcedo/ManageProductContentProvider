@@ -15,9 +15,11 @@ public interface InvoicePresenter {
 
     void loadInvoice();
 
-    void deleteInvoice(Invoice pharmacy);
+    void deleteInvoice(Invoice invoice);
 
-    void addInvoice(Invoice pharmacy);
+    void deleteInvoiceById(int id);
+
+    void addInvoice(Invoice invoice);
 
     void onDestroy();
 

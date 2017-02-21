@@ -82,7 +82,7 @@ public final class ManageProductContract {
         public static final String STATUS_ID = "id_status";
         public static final String DATE = "date";
 
-        public static final String[] PROJECTION = new String[] {BaseColumns._ID, PHARMACY_ID, STATUS_ID, DATE};
+        public static final String[] PROJECTION = new String[] {DatabaseContract.InvoiceEntry.TABLE_NAME+"."+BaseColumns._ID, PHARMACY_ID, STATUS_ID, DATE};
     }
 
     public static class InvoiceLineEntry implements BaseColumns{

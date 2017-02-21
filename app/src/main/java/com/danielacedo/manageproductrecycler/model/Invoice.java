@@ -19,6 +19,8 @@ public class Invoice {
         this.date = date;
     }
 
+    public Invoice(){}
+
     public int get_id() {
         return _id;
     }

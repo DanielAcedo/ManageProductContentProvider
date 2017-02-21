@@ -126,6 +126,10 @@ public final class DatabaseContract {
                 TABLE_NAME, BaseColumns._ID,
                 COLUMN_NAME);
 
+        public static final String SQL_INSERT_ENTRIES = String.format("INSERT INTO %s (%s) VALUES ('%s')", TABLE_NAME,
+                COLUMN_NAME,
+                "Pendiente");
+
         public static final String SQL_DELETE_ENTRIES = String.format("DROP TABLE IF EXISTS %s", TABLE_NAME);
     }
 
@@ -136,6 +140,8 @@ public final class DatabaseContract {
         public static final String COLUMN_DATE = "date";
         public static final String REFERENCE_ID_PHARMACY = String.format("REFERENCES %s (%s) ON UPDATE CASCADE ON DELETE RESTRICT", PharmacyEntry.TABLE_NAME, BaseColumns._ID);
         public static final String REFERENCE_ID_STATUS = String.format("REFERENCES %s (%s) ON UPDATE CASCADE ON DELETE RESTRICT", InvoiceStatusEntry.TABLE_NAME, BaseColumns._ID);
+
+        public static final String DEFAULT_SORT = COLUMN_IDSTATUS;
 
         public static final String INVOICE_JOIN_PHARMACY = String.format("INNER JOIN %s ON %s = %s",
                 PharmacyEntry.TABLE_NAME,
@@ -161,7 +167,12 @@ public final class DatabaseContract {
                 COLUMN_IDSTATUS, REFERENCE_ID_STATUS,
                 COLUMN_DATE);
 
+        public static final String SQL_INSERT_ENTRIES = String.format("INSERT INTO %s (%s, %s, %s) VALUES (%s, %s, '%s')", TABLE_NAME,
+                COLUMN_IDPHARMACY, COLUMN_IDSTATUS, COLUMN_DATE,
+                "1", "1", "25/05/1995");
+
         public static final String[] PROJECTION = {
+                TABLE_NAME+"."+_ID,
                 PharmacyEntry.TABLE_NAME+"."+PharmacyEntry.COLUMN_CIF,
                 InvoiceStatusEntry.TABLE_NAME+"."+InvoiceStatusEntry.COLUMN_NAME,
                 COLUMN_DATE

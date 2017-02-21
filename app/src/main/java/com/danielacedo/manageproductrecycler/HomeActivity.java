@@ -26,7 +26,8 @@ import com.danielacedo.manageproductrecycler.interfaces.ManagePharmacyPresenter;
  * Created by usuario on 1/12/16.
  */
 
-public class HomeActivity extends AppCompatActivity implements ManageProductFragment.ManageProductListener, MultiListProductFragment.MultiListProductListener, ListPharmacyFragment.ListPharmacyListener, ManagePharmacyFragment.ManagePharmacyListener {
+public class HomeActivity extends AppCompatActivity implements ManageProductFragment.ManageProductListener, MultiListProductFragment.MultiListProductListener,
+        ListPharmacyFragment.ListPharmacyListener, ManagePharmacyFragment.ManagePharmacyListener, ListInvoiceFragment.ListInvoiceListener {
     private static final int LONG_DELAY = 3500;
     private static final int SHORT_DELAY = 2000;
 
@@ -36,6 +37,8 @@ public class HomeActivity extends AppCompatActivity implements ManageProductFrag
     private MultiListProductFragment listProductFragment;
     private ManageProductFragment manageProductFragment;
     private ListPharmacyFragment pharmacyFragment;
+    private ListInvoiceFragment invoiceFragment;
+
     private boolean pressed = false;
     private long currentPressMillis;
 
@@ -130,6 +133,12 @@ public class HomeActivity extends AppCompatActivity implements ManageProductFrag
 
                     case R.id.action_pharmacy:
                         showListPharmacy();
+                        setTitle(item.getTitle());
+                        break;
+
+                    case R.id.action_invoice:
+                        showListInvoice();
+                        setTitle(item.getTitle());
                         break;
 
                     default:
@@ -203,6 +212,18 @@ public class HomeActivity extends AppCompatActivity implements ManageProductFrag
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction().replace(R.id.framehome, pharmacyFragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    public void showListInvoice(){
+        invoiceFragment = new ListInvoiceFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction().replace(R.id.framehome, invoiceFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    @Override
+    public void showManageInvoice(Bundle bundle) {
+
     }
 
     @Override

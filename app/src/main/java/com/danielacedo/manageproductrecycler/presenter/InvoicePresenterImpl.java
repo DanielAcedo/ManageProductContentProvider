@@ -40,7 +40,7 @@ public class InvoicePresenterImpl implements InvoicePresenter, LoaderManager.Loa
         Loader loader = ((Activity)context).getLoaderManager().getLoader(INVOICE);
 
         ProgressDialog dialog = view.getProgressDialog();
-        dialog.setTitle("Cargando farmacias...");
+        dialog.setTitle("Cargando ventas...");
         dialog.show();
 
         if(loader == null){
@@ -57,7 +57,7 @@ public class InvoicePresenterImpl implements InvoicePresenter, LoaderManager.Loa
         switch (id){
             case INVOICE:
                 loader = new CursorLoader(context, ManageProductContract.InvoiceEntry.CONTENT_URI,
-                       ManageProductContract.InvoiceEntry.PROJECTION, null, null, null);
+                        DatabaseContract.InvoiceEntry.PROJECTION, null, null, DatabaseContract.InvoiceEntry.DEFAULT_SORT);
                 break;
         }
 
@@ -91,6 +91,16 @@ public class InvoicePresenterImpl implements InvoicePresenter, LoaderManager.Loa
     @Override
     public void onDestroy() {
         this.view = null;
+    }
+
+    @Override
+    public void deleteInvoiceById(int id) {
+        int result = context.getContentResolver().delete(ManageProductContract.InvoiceEntry.CONTENT_URI,
+                ManageProductContract.InvoiceEntry._ID+"="+id, null);
+
+        if(result != 0){
+            loadInvoice();
+        }
     }
 
     @Override

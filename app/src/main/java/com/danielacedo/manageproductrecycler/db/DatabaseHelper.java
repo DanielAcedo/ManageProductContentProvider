@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "ManageProduct.db";
-    public static final int DATABASE_VERSION = 8;
+    public static final int DATABASE_VERSION = 10;
     private static volatile DatabaseHelper databaseHelper;
     private AtomicInteger mOpenCounter;
     private SQLiteDatabase mDatabase;
@@ -48,7 +48,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL(DatabaseContract.PharmacyEntry.SQL_CREATE_ENTRIES);
             db.execSQL(DatabaseContract.PharmacyEntry.SQL_INSERT_ENTRIES);
             db.execSQL(DatabaseContract.InvoiceStatusEntry.SQL_CREATE_ENTRIES);
+            db.execSQL(DatabaseContract.InvoiceStatusEntry.SQL_INSERT_ENTRIES);
             db.execSQL(DatabaseContract.InvoiceEntry.SQL_CREATE_ENTRIES);
+            db.execSQL(DatabaseContract.InvoiceEntry.SQL_INSERT_ENTRIES);
             db.execSQL(DatabaseContract.InvoiceLineEntry.SQL_CREATE_ENTRIES);
             db.setTransactionSuccessful();
         }

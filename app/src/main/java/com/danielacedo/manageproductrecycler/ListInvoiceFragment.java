@@ -19,29 +19,33 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.danielacedo.manageproductrecycler.adapter.InvoiceAdapter;
 import com.danielacedo.manageproductrecycler.adapter.PharmacyAdapter;
+import com.danielacedo.manageproductrecycler.interfaces.InvoicePresenter;
 import com.danielacedo.manageproductrecycler.interfaces.PharmacyPresenter;
+import com.danielacedo.manageproductrecycler.model.Invoice;
 import com.danielacedo.manageproductrecycler.model.Pharmacy;
+import com.danielacedo.manageproductrecycler.presenter.InvoicePresenterImpl;
 import com.danielacedo.manageproductrecycler.presenter.PharmacyPresenterImpl;
 
 /**
  * Activity inherating from ListActivity that displays all the products in out Applicationś List
  * @author Daniel Acedo Calderón
  */
-public class ListInvoiceFragment extends Fragment{
+public class ListInvoiceFragment extends Fragment implements InvoicePresenter.View{
 
-    private PharmacyAdapter adapter;
+    private InvoiceAdapter adapter;
     private ListView lv_ListProduct;
     private TextView txv_empty;
     private FloatingActionButton fab_AddProduct;
     private ProgressDialog progressDialog;
     private View root;
 
-    private ListPharmacyListener mCallback;
-    PharmacyPresenter presenter;
+    private ListInvoiceListener mCallback;
+    InvoicePresenter presenter;
 
-    interface ListPharmacyListener{
-        void showManagePharmacy(Bundle bundle);
+    interface ListInvoiceListener{
+        void showManageInvoice(Bundle bundle);
     }
 
 
@@ -49,9 +53,9 @@ public class ListInvoiceFragment extends Fragment{
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try{
-            mCallback = (ListPharmacyListener)activity;
+            mCallback = (ListInvoiceListener) activity;
         }catch(ClassCastException e){
-            throw new ClassCastException(getContext().toString() + "must implement ListProductListener");
+            throw new ClassCastException(getContext().toString() + "must implement ListInvoiceListener");
         }
     }
 
@@ -64,8 +68,8 @@ public class ListInvoiceFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        adapter = new PharmacyAdapter(getContext(), null, 0);
-        //presenter = new PharmacyPresenterImpl(this);
+        adapter = new InvoiceAdapter(getContext(), null, 0);
+        presenter = new InvoicePresenterImpl(this);
 
         setHasOptionsMenu(true);
         setRetainInstance(true);
@@ -76,8 +80,33 @@ public class ListInvoiceFragment extends Fragment{
         super.onResume();
 
         if (presenter != null) {
-            presenter.loadPharmacy();
+            presenter.loadInvoice();
         }
+    }
+
+    @Override
+    public void showInvoice(Cursor invoiceCursor) {
+        adapter.changeCursor(invoiceCursor);
+    }
+
+    @Override
+    public void showEmptyState(boolean show) {
+
+    }
+
+    @Override
+    public void showMessage(int message) {
+        Snackbar.make(root, getResources().getString(message),Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showMessageDelete(Invoice invoice) {
+
+    }
+
+    @Override
+    public ProgressDialog getProgressDialog() {
+        return progressDialog;
     }
 
     @Nullable
@@ -95,7 +124,7 @@ public class ListInvoiceFragment extends Fragment{
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(Pharmacy.PHARMACY_KEY, (Pharmacy)parent.getItemAtPosition(position));
 
-                mCallback.showManagePharmacy(bundle);
+                mCallback.showManageInvoice(bundle);
             }
         });
 
@@ -110,7 +139,7 @@ public class ListInvoiceFragment extends Fragment{
         fab_AddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCallback.showManagePharmacy(null);
+                mCallback.showManageInvoice(null);
             }
         });
 
@@ -142,8 +171,8 @@ public class ListInvoiceFragment extends Fragment{
 
         switch(item.getItemId()){
             case R.id.ctx_menu_product_delete:
-                Pharmacy pharmacy = adapter.getItem(((AdapterView.AdapterContextMenuInfo)item.getMenuInfo()).position);
-                presenter.deletePharmacy(pharmacy);
+                int id = adapter.getItem(((AdapterView.AdapterContextMenuInfo)item.getMenuInfo()).position).get_id();
+                presenter.deleteInvoiceById(id);
                 break;
         }
 
@@ -168,7 +197,7 @@ public class ListInvoiceFragment extends Fragment{
 
         switch (item.getItemId()){
             case R.id.action_add_product:
-                mCallback.showManagePharmacy(null);
+                mCallback.showManageInvoice(null);
                 break;
             case R.id.action_sort_alphabetically:
                 //adapter.getAlphabeticallySortedProducts();
