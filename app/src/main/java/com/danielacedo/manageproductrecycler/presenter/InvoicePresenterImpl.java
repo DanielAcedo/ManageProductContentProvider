@@ -66,7 +66,7 @@ public class InvoicePresenterImpl implements InvoicePresenter, LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        data.setNotificationUri(context.getContentResolver(), ManageProductContract.PharmacyEntry.CONTENT_URI);
+        data.setNotificationUri(context.getContentResolver(), ManageProductContract.InvoiceEntry.CONTENT_URI);
         view.showInvoice(data);
 
         view.getProgressDialog().dismiss();

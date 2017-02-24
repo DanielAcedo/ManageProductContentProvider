@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "ManageProduct.db";
-    public static final int DATABASE_VERSION = 10;
+    public static final int DATABASE_VERSION = 14;
     private static volatile DatabaseHelper databaseHelper;
     private AtomicInteger mOpenCounter;
     private SQLiteDatabase mDatabase;

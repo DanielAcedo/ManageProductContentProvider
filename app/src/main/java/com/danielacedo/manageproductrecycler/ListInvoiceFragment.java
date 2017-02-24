@@ -24,6 +24,7 @@ import com.danielacedo.manageproductrecycler.adapter.PharmacyAdapter;
 import com.danielacedo.manageproductrecycler.interfaces.InvoicePresenter;
 import com.danielacedo.manageproductrecycler.interfaces.PharmacyPresenter;
 import com.danielacedo.manageproductrecycler.model.Invoice;
+import com.danielacedo.manageproductrecycler.model.InvoiceView;
 import com.danielacedo.manageproductrecycler.model.Pharmacy;
 import com.danielacedo.manageproductrecycler.presenter.InvoicePresenterImpl;
 import com.danielacedo.manageproductrecycler.presenter.PharmacyPresenterImpl;
@@ -122,7 +123,7 @@ public class ListInvoiceFragment extends Fragment implements InvoicePresenter.Vi
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bundle bundle = new Bundle();
-                bundle.putParcelable(Pharmacy.PHARMACY_KEY, (Pharmacy)parent.getItemAtPosition(position));
+                bundle.putParcelable(InvoiceView.INVOICEVIEW_KEY, (InvoiceView)parent.getItemAtPosition(position));
 
                 mCallback.showManageInvoice(bundle);
             }

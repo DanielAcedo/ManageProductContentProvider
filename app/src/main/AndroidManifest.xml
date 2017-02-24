@@ -25,6 +25,8 @@
         <activity android:name=".GeneralSettings_Activity" />
         <activity android:name=".AccountSettings_Activity" />
         <activity android:name=".Register_Activity" android:windowSoftInputMode="adjustPan"></activity>
+
+        <service android:name=".service.InvoiceCheckService"/>
     </application>
 
 </manifest>

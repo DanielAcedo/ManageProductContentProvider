@@ -41,12 +41,14 @@ public class InvoiceAdapter extends CursorAdapter {
 
         InvoiceView invoice = new InvoiceView();
         invoice.set_id(getCursor().getInt(0));
-        invoice.setPharmacy(getCursor().getString(1));
-        invoice.setStatus(getCursor().getString(2));
+        invoice.setId_pharmacy(getCursor().getInt(1));
+        invoice.setPharmacy(getCursor().getString(2));
+        invoice.setId_status(getCursor().getInt(3));
+        invoice.setStatus(getCursor().getString(4));
         Calendar calendarTmp = Calendar.getInstance();
         try {
             DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-            calendarTmp.setTime(format.parse(getCursor().getString(3)));
+            calendarTmp.setTime(format.parse(getCursor().getString(5)));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -79,13 +81,9 @@ public class InvoiceAdapter extends CursorAdapter {
         holder.txv_pharmacy.setText(invoice.getPharmacy());
         holder.txv_status.setText(invoice.getStatus());
 
-        String format = invoice.getDate().get(Calendar.DAY_OF_MONTH)+"/"+invoice.getDate().get(Calendar.MONTH)+"/"+invoice.getDate().get(Calendar.YEAR);
+        String format = invoice.getDate().get(Calendar.DAY_OF_MONTH)+"/"+String.format("%02d",invoice.getDate().get(Calendar.MONTH)+1)+"/"+invoice.getDate().get(Calendar.YEAR);
         holder.txv_date.setText(format);
 
-    }
-
-    public void updatePharmacy(Cursor cursor){
-        changeCursor(cursor);
     }
 
     static class InvoiceHolder {

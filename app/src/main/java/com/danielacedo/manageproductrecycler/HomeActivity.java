@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.danielacedo.manageproductrecycler.interfaces.ManagePharmacyPresenter;
+import com.danielacedo.manageproductrecycler.service.InvoiceCheckService;
 
 /**
  * Created by usuario on 1/12/16.
@@ -28,6 +29,7 @@ import com.danielacedo.manageproductrecycler.interfaces.ManagePharmacyPresenter;
 
 public class HomeActivity extends AppCompatActivity implements ManageProductFragment.ManageProductListener, MultiListProductFragment.MultiListProductListener,
         ListPharmacyFragment.ListPharmacyListener, ManagePharmacyFragment.ManagePharmacyListener, ListInvoiceFragment.ListInvoiceListener {
+
     private static final int LONG_DELAY = 3500;
     private static final int SHORT_DELAY = 2000;
 
@@ -95,7 +97,10 @@ public class HomeActivity extends AppCompatActivity implements ManageProductFrag
         if(savedInstanceState == null) {
             listProductFragment = new MultiListProductFragment();
             getSupportFragmentManager().beginTransaction().add(R.id.framehome, listProductFragment).commit();
+            setTitle(navigationView.getMenu().getItem(0).getTitle());
         }
+
+        startService(new Intent(HomeActivity.this, InvoiceCheckService.class));
     }
 
     @Override
@@ -104,6 +109,7 @@ public class HomeActivity extends AppCompatActivity implements ManageProductFrag
 
         actionBarDrawerToggle.syncState();
     }
+
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
