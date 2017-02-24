@@ -185,7 +185,9 @@ public class ListPharmacyFragment extends Fragment implements PharmacyPresenter.
 
     @Override
     public void showPharmacy(Cursor cursorPharmacy){
-        adapter.updatePharmacy(cursorPharmacy);
+        if (adapter != null) {
+            adapter.updatePharmacy(cursorPharmacy);
+        }
     }
 
     private void hideList(boolean hide){

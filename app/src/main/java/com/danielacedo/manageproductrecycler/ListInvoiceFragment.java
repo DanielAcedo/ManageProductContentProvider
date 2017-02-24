@@ -87,7 +87,9 @@ public class ListInvoiceFragment extends Fragment implements InvoicePresenter.Vi
 
     @Override
     public void showInvoice(Cursor invoiceCursor) {
-        adapter.changeCursor(invoiceCursor);
+        if (adapter != null) {
+            adapter.changeCursor(invoiceCursor);
+        }
     }
 
     @Override

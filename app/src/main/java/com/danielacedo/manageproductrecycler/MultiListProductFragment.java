@@ -159,8 +159,11 @@ public class MultiListProductFragment extends Fragment implements ProductPresent
     }
 
     @Override
-    public void showProducts(Cursor productCursor) {
-        adapter.changeCursor(productCursor);
+    public void showProducts(Cursor productCursor)
+    {
+        if (adapter != null) {
+            adapter.changeCursor(productCursor);
+        }
     }
 
     /*

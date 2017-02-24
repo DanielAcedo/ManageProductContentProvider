@@ -65,6 +65,7 @@ public class InvoiceCheckService extends Service {
                 NotificationManager nManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                 nManager.notify(1, builder.build());
 
+                cursor.close();
                 stopSelf();
             }
         };
