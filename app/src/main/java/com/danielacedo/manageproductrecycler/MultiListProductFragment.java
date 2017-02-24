@@ -22,6 +22,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.danielacedo.manageproductrecycler.adapter.ProductAdapter;
+import com.danielacedo.manageproductrecycler.interfaces.ChangeableTitle;
 import com.danielacedo.manageproductrecycler.interfaces.IProduct;
 import com.danielacedo.manageproductrecycler.interfaces.ProductPresenter;
 import com.danielacedo.manageproductrecycler.model.Product;
@@ -46,6 +47,7 @@ public class MultiListProductFragment extends Fragment implements ProductPresent
     private ViewGroup root;
 
     private MultiListProductListener mCallback;
+    private ChangeableTitle titleChanger;
     private ProductPresenter presenter;
 
 
@@ -59,8 +61,9 @@ public class MultiListProductFragment extends Fragment implements ProductPresent
         super.onAttach(activity);
         try{
             mCallback = (MultiListProductListener)activity;
+            titleChanger = (ChangeableTitle)activity;
         }catch(ClassCastException e){
-            throw new ClassCastException(getContext().toString() + "must implement MultiListProductListener");
+            throw new ClassCastException(getContext().toString() + "must implement MultiListProductListener and ChangeableTitle");
         }
     }
 
@@ -68,6 +71,7 @@ public class MultiListProductFragment extends Fragment implements ProductPresent
     public void onDetach() {
         super.onDetach();
         mCallback = null;
+        titleChanger = null;
     }
 
     @Override
@@ -80,6 +84,12 @@ public class MultiListProductFragment extends Fragment implements ProductPresent
 
         setHasOptionsMenu(true);
         setRetainInstance(true);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        titleChanger.changeTitle("Productos");
     }
 
     @Override

@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.danielacedo.manageproductrecycler.adapter.InvoiceAdapter;
 import com.danielacedo.manageproductrecycler.adapter.PharmacyAdapter;
+import com.danielacedo.manageproductrecycler.interfaces.ChangeableTitle;
 import com.danielacedo.manageproductrecycler.interfaces.InvoicePresenter;
 import com.danielacedo.manageproductrecycler.interfaces.PharmacyPresenter;
 import com.danielacedo.manageproductrecycler.model.Invoice;
@@ -45,6 +46,8 @@ public class ListInvoiceFragment extends Fragment implements InvoicePresenter.Vi
     private ListInvoiceListener mCallback;
     InvoicePresenter presenter;
 
+    private ChangeableTitle titleChanger;
+
     interface ListInvoiceListener{
         void showManageInvoice(Bundle bundle);
     }
@@ -55,8 +58,9 @@ public class ListInvoiceFragment extends Fragment implements InvoicePresenter.Vi
         super.onAttach(activity);
         try{
             mCallback = (ListInvoiceListener) activity;
+            titleChanger = (ChangeableTitle)activity;
         }catch(ClassCastException e){
-            throw new ClassCastException(getContext().toString() + "must implement ListInvoiceListener");
+            throw new ClassCastException(getContext().toString() + "must implement ListInvoiceListener and ChangeableTitle");
         }
     }
 
@@ -64,6 +68,7 @@ public class ListInvoiceFragment extends Fragment implements InvoicePresenter.Vi
     public void onDetach() {
         super.onDetach();
         mCallback = null;
+        titleChanger = null;
     }
 
     @Override

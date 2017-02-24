@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.danielacedo.manageproductrecycler.adapter.PharmacyAdapter;
+import com.danielacedo.manageproductrecycler.interfaces.ChangeableTitle;
 import com.danielacedo.manageproductrecycler.interfaces.PharmacyPresenter;
 import com.danielacedo.manageproductrecycler.model.Pharmacy;
 import com.danielacedo.manageproductrecycler.presenter.PharmacyPresenterImpl;
@@ -40,6 +41,8 @@ public class ListPharmacyFragment extends Fragment implements PharmacyPresenter.
     private ListPharmacyListener mCallback;
     PharmacyPresenter presenter;
 
+    private ChangeableTitle titleChanger;
+
     interface ListPharmacyListener{
         void showManagePharmacy(Bundle bundle);
     }
@@ -50,8 +53,9 @@ public class ListPharmacyFragment extends Fragment implements PharmacyPresenter.
         super.onAttach(activity);
         try{
             mCallback = (ListPharmacyListener)activity;
+            titleChanger = (ChangeableTitle)activity;
         }catch(ClassCastException e){
-            throw new ClassCastException(getContext().toString() + "must implement ListProductListener");
+            throw new ClassCastException(getContext().toString() + "must implement ListProductListener and ChangeableTitle");
         }
     }
 
@@ -59,6 +63,7 @@ public class ListPharmacyFragment extends Fragment implements PharmacyPresenter.
     public void onDetach() {
         super.onDetach();
         mCallback = null;
+        titleChanger = null;
     }
 
     @Override
@@ -69,6 +74,13 @@ public class ListPharmacyFragment extends Fragment implements PharmacyPresenter.
 
         setHasOptionsMenu(true);
         setRetainInstance(true);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        titleChanger.changeTitle("Farmacia");
     }
 
     @Override

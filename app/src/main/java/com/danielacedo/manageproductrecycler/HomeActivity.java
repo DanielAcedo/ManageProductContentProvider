@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.danielacedo.manageproductrecycler.interfaces.ChangeableTitle;
 import com.danielacedo.manageproductrecycler.interfaces.ManagePharmacyPresenter;
 import com.danielacedo.manageproductrecycler.service.InvoiceCheckService;
 
@@ -28,7 +29,7 @@ import com.danielacedo.manageproductrecycler.service.InvoiceCheckService;
  */
 
 public class HomeActivity extends AppCompatActivity implements ManageProductFragment.ManageProductListener, MultiListProductFragment.MultiListProductListener,
-        ListPharmacyFragment.ListPharmacyListener, ManagePharmacyFragment.ManagePharmacyListener, ListInvoiceFragment.ListInvoiceListener {
+        ListPharmacyFragment.ListPharmacyListener, ManagePharmacyFragment.ManagePharmacyListener, ListInvoiceFragment.ListInvoiceListener, ChangeableTitle {
 
     private static final int LONG_DELAY = 3500;
     private static final int SHORT_DELAY = 2000;
@@ -238,6 +239,11 @@ public class HomeActivity extends AppCompatActivity implements ManageProductFrag
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction().replace(R.id.framehome, managePharmacyFragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    @Override
+    public void changeTitle(String title) {
+        setTitle(title);
     }
 
     @Override
